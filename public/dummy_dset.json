@@ -1,0 +1,29 @@
+{
+  "global_info": {
+    "accuracy": 0.85,
+    "false_positive_rate": 0.3,
+    "false_negative_rate": 0.25,
+    "highest_precision_objects": [
+      { "object": "carrot", "score": 0.85 },
+      { "object": "potato", "score": 0.78 },
+      { "object": "bean", "score": 0.70 }
+    ],
+    "lowest_precision_objects": [
+      { "object": "orange", "score": 0.85 },
+      { "object": "knife", "score": 0.78 },
+      { "object": "pineapple", "score": 0.70 }
+    ]
+  },
+  "video_info": [
+      { "id": 1, "tags": [ "cut", "wash", "carrot", "knife", "fridge", "cutting board" ] },
+      { "id": 2, "tags": [ "cut", "wash", "carrot", "knife", "cutting board", "plate" ] },
+      { "id": 3, "tags": [ "cut", "wash", "carrot", "knife", "cutting board", "plate" ] },
+      { "id": 4, "tags": [ "cut", "peel", "potato", "peeler", "fridge", "cutting board" ] },
+      { "id": 5, "tags": [ "cut", "peel", "potato", "peeler", "fridge", "plate" ] },
+      { "id": 6, "tags": [ "cut", "wash", "beans", "knife", "fridge", "cutting board" ] },
+      { "id": 7, "tags": [ "cut", "peel", "pineapple", "knife", "fridge", "cutting board" ] },
+      { "id": 8, "tags": [ "cut", "peel", "potato", "peeler", "fridge", "cutting board" ] },
+      { "id": 9, "tags": [ "cut", "wash", "beans", "knife", "fridge", "cutting board" ] },
+      { "id": 10, "tags": [ "cut", "wash", "carrot", "knife", "cutting board", "plate" ] }
+  ]
+}

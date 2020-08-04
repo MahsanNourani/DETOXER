@@ -1,0 +1,9 @@
+.barChart {
+    stroke: black;
+    fill: yellowgreen;
+    stroke-width: 0.3;
+}
+
+.barText {
+    font-size: 13px;
+}
