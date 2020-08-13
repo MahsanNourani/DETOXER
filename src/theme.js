@@ -1,8 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const palette = {
-  primary: { main: '#82B1FF' },
-  secondary: { main: '#D81B60' }
+  primary: { main: '#536dfe' }, //82B1FF
+  secondary: { main: '#D81B60' }  //#e44f9e
 };
 const themeName = 'Malibu Amaranth Goats';
 

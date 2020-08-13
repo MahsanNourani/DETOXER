@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography, Grid, Card, ListItem, ListItemIcon, ListItemText, CardMedia, CardContent, Chip, makeStyles, List, Divider, Box } from '@material-ui/core';
+import { Typography, Grid, Card, ListItem, ListItemIcon, ListItemText, CardMedia, CardContent, Chip, makeStyles, List, Divider, Button } from '@material-ui/core';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import SearchIcon from '@material-ui/icons/Search';
 import { green, red } from '@material-ui/core/colors';
 // { "vid-id": "s23-d27", "id": 1, "tags": [ "cut", "wash", "carrot", "knife", "fridge", "cutting board" ] , "f-positive": 10, "f-negative": 15 },
 
@@ -9,7 +10,9 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		border: "1px solid #afadae52",
-		// alignItems: "center"
+		'&:hover': {
+			backgroundColor: "rgb(223 72 127 / 4%)", 
+		},
 	 },
 	rootDiv: {
 		display: 'flex',
@@ -35,7 +38,6 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: 'column',
 	 },
 	cover: {
-		width: 100,
 		height: 100,
 	},
 	// tag: {
@@ -51,6 +53,25 @@ const useStyles = makeStyles(theme => ({
 	divider: {
 		marginBottom: theme.spacing(1),
 		marginTop: theme.spacing(1),
+	},
+	buttonIcon: {
+		margin: 0,
+	},
+	button: {
+		fontSize: '11px',
+		padding: '1px 10px',
+		margin: '8px 8px',
+		color: theme.palette.primary.dark,
+		border: "1px solid rgb(130 177 255 / 65%)",
+		'&:hover': {
+			backgroundColor: theme.palette.primary.dark,
+    		color: "white",
+		},
+	},
+	chip: {
+		'&:hover': {
+			backgroundColor: "rgb(223 72 127 / 13%)", 
+		},
 	}
 }));
 
@@ -61,15 +82,15 @@ export default function VideoPreview(props) {
 		<div className={classes.rootDiv}>
 			{data.tags.map((tag, index) => {
 				return (
-					<Chip variant="outlined" color="secondary" size="small" label={tag} key={index}/>
+					<Chip variant="outlined" color="secondary" size="small" label={tag} key={index} className={classes.chip}/>
 					// <Typography variant="caption" key={index} className={classes.tag} noWrap>{tag}</Typography>
 				)
 			})}
 		</div>
 
 	const performanceData = [
-		{"value":data.fPositive, "text": "Flase Positives", "icon": <AddBoxRoundedIcon style={{color:green.A700}}/>}, 
-		{"value":data.fNegative, "text": "Flase Negatives", "icon": <IndeterminateCheckBoxIcon style={{color:red[500]}}/>}
+		{"value":data.fPositive, "text": "False Positive", "icon": <AddBoxRoundedIcon style={{color:green.A700}}/>}, 
+		{"value":data.fNegative, "text": "False Negative", "icon": <IndeterminateCheckBoxIcon style={{color:red[500]}}/>}
 	];
 	const videoStatus = performanceData.map((item, index) => {
 		return (
@@ -88,8 +109,11 @@ export default function VideoPreview(props) {
 	
 	return (
 		<Grid item xs={12} style={props.style}>
-			<Card className={classes.root}>
-				<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.jpg`)} className={classes.cover} />
+			<Card variant="outlined" classes={{root: classes.root}}>
+				<div style={{alignItems:'center'}}>
+					<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.jpg`)} className={classes.cover} />
+					<Button color="primary" size="small" variant="outlined" startIcon={<SearchIcon />} classes={{startIcon: classes.buttonIcon, outlinedPrimary: classes.button}}> Inspect Video </Button>
+				</div>
 				<div className={classes.details}>
 					<CardContent className={classes.cardContent}>
 						<Typography variant="subtitle2">Top 5 Components:</Typography>

@@ -3,8 +3,9 @@ import React from 'react';
 // Note to self: CLSX is a dynmaic conditional class joining framework.
 import clsx from 'clsx';
 
-import {Drawer as MUIDrawer, Button, Typography} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import { Drawer as MUIDrawer, Button, Typography, AppBar, Toolbar, IconButton } from '@material-ui/core';
+import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
+import { makeStyles } from '@material-ui/core/styles';
 import DrawerContent from './DrawerContent';
 // import {pink} from '@material-ui/core/colors';
 
@@ -15,65 +16,114 @@ import DrawerContent from './DrawerContent';
 // Note the number is not a string or in pixels. The shifting won't work strings. The browser automatically translates this into pixels. (why?)
 const drawerWidth = 400;
 const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        padding: '10px',
-    },
-// With this below, the size will be set to the drawerWidth. Without it, it will fit the content.
-    drawerPaper: {
-        width: drawerWidth,
-        padding: '10px',
-        // backgroundColor: "#f4f8ff",
-      },
+	root: {
+		display: 'flex',
+	},
+	appBar: {
+		transition: theme.transitions.create(['margin', 'width'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		backgroundColor: theme.palette.primary.dark,
+	},
+	appBarShift: {
+		width: `calc(100% - ${drawerWidth}px)`,
+		marginLeft: drawerWidth,
+		transition: theme.transitions.create(['margin', 'width'], {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	},
+	open : {
+		transform: "scaleX(1)",
+	},
+	close: {
+		transform: "scaleX(-1)",
+	 },
+	menuButton: {
+		marginRight: theme.spacing(2),
+		color: theme.palette.primary.contrastText,
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0,
+		padding: '10px',
+	},
+	// With this below, the size will be set to the drawerWidth. Without it, it will fit the content.
+	drawerPaper: {
+		width: drawerWidth,
+		padding: '10px',
+		maxHeight: "100vh",
+		overflowY: "hidden",
+		borderTop: 0,
+		backgroundColor: "#f4f8ff",
+	},
 
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-        backgroundColor: "#f4f8ff",
-        height: "100vp"
+	drawerHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		padding: theme.spacing(3, 1),
+		// necessary for content to be below app bar
+		...theme.mixins.toolbar,
+		justifyContent: 'flex-end',
+	 },
 
-    },
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		marginLeft: -drawerWidth,
+		backgroundColor: "#f4f8ff",
+		height: "100vp"
 
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    }
+	},
+
+	contentShift: {
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+		marginLeft: 0,
+	}
 }));
 
 export default function MainLayout() {
-    const classes = useStyles();
+	const classes = useStyles();
 
-    const drawerOpen = () => {setOpen(true)};
-    const drawerClose = () => {setOpen(false)};
-    const drawerToggle = () => {setOpen(!open)};
+	const drawerOpen = () => { setOpen(true) };
+	const drawerClose = () => { setOpen(false) };
+	const drawerToggle = () => { setOpen(!open) };
 
-    const [open, setOpen] = React.useState(true);
-    return (
-        <div className={classes.root}>
-            <MUIDrawer variant="persistent" open={open} anchor="left" className={classes.drawer} classes={{paper: classes.drawerPaper,}}>
-                {/* <Typography variant="h2" color="initial"> This is a test!</Typography>
+	const [open, setOpen] = React.useState(false);
+	return (
+		<div className={classes.root}>
+			<AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
+				<Toolbar variant="dense">
+					<IconButton aria-label="open drawer" onClick={drawerToggle} className={classes.menuButton}>
+						<MenuOpenRoundedIcon className={clsx(!open && classes.close, open && classes.open)}/>
+					</IconButton>
+					<Typography variant="h6" noWrap>
+						Global Visualization tool
+          		</Typography>
+				</Toolbar>
+			</AppBar>
+			<MUIDrawer variant="persistent" open={open} anchor="left" className={classes.drawer} classes={{ paper: classes.drawerPaper, }}>
+				{/* <Typography variant="h2" color="initial"> This is a test!</Typography>
                 <Button variant="contained" color="secondary" onClick={drawerClose}>
                     close drawer
                 </Button> */}
-                <DrawerContent />
-            </MUIDrawer>
-            <main className={clsx(classes.content, {[classes.contentShift]: open,})}>
-                <Button variant="contained" color="primary" onClick={drawerToggle} fullWidth>
-                    Toggle the Drawer
-                </Button>
-            </main>
-        </div>
-    )
+				<DrawerContent />
+			</MUIDrawer>
+			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
+				<div className={classes.drawerHeader}>
+					<Button variant="contained" color="primary" onClick={drawerToggle} fullWidth>
+						Toggle the Drawer
+					</Button>
+				</div>
+			</main>
+		</div>
+	)
 }
