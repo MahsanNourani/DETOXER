@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useRef} from 'react';
 
 // Note to self: CLSX is a dynmaic conditional class joining framework.
 import clsx from 'clsx';
 
-import { Drawer as MUIDrawer, Button, Typography, AppBar, Toolbar, IconButton } from '@material-ui/core';
+import { Drawer as MUIDrawer, Button, Typography, AppBar, Toolbar, IconButton, Grid } from '@material-ui/core';
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import DrawerContent from './DrawerContent';
+import VideoPlayer from './VideoPlayer';
 // import {pink} from '@material-ui/core/colors';
 
 //React.Fragment --> similar to div but for when you cannot have items within a div as they'll lose their functionality! 
@@ -62,7 +63,7 @@ const useStyles = makeStyles(theme => ({
 	drawerHeader: {
 		display: 'flex',
 		alignItems: 'center',
-		padding: theme.spacing(3, 1),
+		padding: theme.spacing(3, 0),
 		// necessary for content to be below app bar
 		...theme.mixins.toolbar,
 		justifyContent: 'flex-end',
@@ -71,6 +72,7 @@ const useStyles = makeStyles(theme => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing(3),
+		paddingTop: '48px', // 48px is the height of the appbar
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
@@ -97,7 +99,9 @@ export default function MainLayout() {
 	const drawerClose = () => { setOpen(false) };
 	const drawerToggle = () => { setOpen(!open) };
 
-	const [open, setOpen] = React.useState(false);
+	const player = useRef(null); 
+
+	const [open, setOpen] = React.useState(true);
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
@@ -119,9 +123,11 @@ export default function MainLayout() {
 			</MUIDrawer>
 			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
 				<div className={classes.drawerHeader}>
-					<Button variant="contained" color="primary" onClick={drawerToggle} fullWidth>
-						Toggle the Drawer
-					</Button>
+					 <Grid container>
+					 	<Grid item md={6}>
+							<VideoPlayer ref={player} source="https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4"/>
+						</Grid>
+					 </Grid>
 				</div>
 			</main>
 		</div>

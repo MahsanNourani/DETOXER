@@ -12,7 +12,7 @@ const styles = {
 	chartTitle: {
 		fontWeight: "bold",
 		color: "white",
-		backgroundColor: "#e44f9e",
+		backgroundColor: "#99aa00",
 		// border: "0.5px solid #f5b8cabd",
 		padding: "6px",
 		fontSize: "14px",

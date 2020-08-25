@@ -18,8 +18,16 @@ const useStyles = makeStyles(theme => ({
 	listIcon: {
 		color: theme.palette.secondary.dark,
 	},
+	listPadding: {
+		paddingTop: 0,
+		paddingBottom: 0,
+	},
 	listIconRoot: {
 		fontSize: "3rem",
+	},
+	listItemRoot: {
+		paddingTop: 2,
+		paddingBottom: 2,
 	},
 	AccordionDetailsRoot: {
 		display: "block",
@@ -56,6 +64,9 @@ const useStyles = makeStyles(theme => ({
 	videoAccordion: {
 		maxHeight: '580px',
 		overflowY: 'scroll',
+	},
+	fontSizeLarge: {
+		fontSize:30,
 	}
 }));
 
@@ -121,13 +132,13 @@ export default function DrawerContent() {
 	const globalInfo = drawerContent.globalInfo;
 
 	const [items, setItems] = React.useState([
-		{ text: "Model Accuracy", value: globalInfo.accuracy, icon: <SettingsApplicationsIcon style={{color:lightBlue.A700}}/> },
-		{ text: "Estimation of False Positives", value: globalInfo.falsePositiveRate, icon: <AddBoxRoundedIcon style={{color:green.A700}}/> },
-		{ text: "Estimation of False Negatives", value: globalInfo.falseNegativeRate, icon: <IndeterminateCheckBoxIcon style={{color:red[500]}}/> },
+		{ text: "Model Accuracy", value: globalInfo.accuracy, icon: <SettingsApplicationsIcon fontSize="large" style={{color:lightBlue.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+		{ text: "Estimation of False Positives", value: globalInfo.falsePositiveRate, icon: <AddBoxRoundedIcon fontSize="large" style={{color:green.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+		{ text: "Estimation of False Negatives", value: globalInfo.falseNegativeRate, icon: <IndeterminateCheckBoxIcon fontSize="large" style={{color:red[500]}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
 	]);
 	const listItems = items.map((item, index) => {
 		return (
-			<ListItem key={index}>
+			<ListItem key={index} classes={{root: classes.listItemRoot}}>
 				<ListItemIcon classes={{root: classes.listIconRoot}}>
 					{item.icon}
 				</ListItemIcon>
@@ -162,7 +173,7 @@ export default function DrawerContent() {
 						<Typography>System Performance Metrics</Typography>
 					</AccordionSummary>
 					<AccordionDetails className={classes.AccordionDetailsRoot}>
-						<List className={classes.list}>
+						<List classes={{padding: classes.listPadding}}>
 							{listItems}
 						</List>
 					</AccordionDetails>

@@ -1,0 +1,29 @@
+.slider {
+    border: solid 1px #82CFD0;
+    border-radius: 8px;
+    height: 6px;
+    width: 356px;
+    outline: none;
+    transition: background 4ms ease-in;
+    /* -webkit-appearance: none; */
+}
+
+.react-window {
+    /* padding: 4px 10px; */
+    /* border: 1px solid #3a4cb13b; */
+    border-radius: 4px;
+    text-align: center;
+    background: #0e1121;
+}
+
+.control-box {
+    padding-left: 40px;
+}
+
+.player-container {
+    margin-bottom: 15px!important;
+}
+
+video {
+    width: 80%!important;
+}

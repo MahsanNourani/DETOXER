@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		border: "1px solid #afadae52",
 		'&:hover': {
-			backgroundColor: "rgb(223 72 127 / 4%)", 
+			backgroundColor: theme.palette.secondary.transparent,
 		},
 	 },
 	rootDiv: {
@@ -69,8 +69,10 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	chip: {
+		backgroundColor: theme.palette.secondary.light,
 		'&:hover': {
-			backgroundColor: "rgb(223 72 127 / 13%)", 
+			backgroundColor: theme.palette.secondary.main,
+			opacity: 0.8
 		},
 	}
 }));
@@ -82,7 +84,7 @@ export default function VideoPreview(props) {
 		<div className={classes.rootDiv}>
 			{data.tags.map((tag, index) => {
 				return (
-					<Chip variant="outlined" color="secondary" size="small" label={tag} key={index} className={classes.chip}/>
+					<Chip size="small" label={tag} key={index} className={classes.chip}/>
 					// <Typography variant="caption" key={index} className={classes.tag} noWrap>{tag}</Typography>
 				)
 			})}
