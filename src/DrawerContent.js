@@ -12,7 +12,7 @@ import VideoPreview from './VideoPreview';
 import { green, red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import clsx from 'clsx';
-import drawerContent from './dummy_dset.json';
+import drawerContent from './data/dset2.json';
 
 const useStyles = makeStyles(theme => ({
 	listIcon: {
@@ -55,7 +55,6 @@ const useStyles = makeStyles(theme => ({
 	sticky: {
 		position: '-webkit-sticky',
 		position: 'sticky',
-		backgroundColor: 'white',
 		top: 0,
 		bottom: 10,
 		zIndex: 5,
@@ -89,14 +88,6 @@ const Accordion = withStyles(theme => ({
 	expanded: {},
 }))(MuiAccordion);
 
-// AccordionSummaryRoot: {
-// 	minHeight: "37px!important",
-// 	height: "37px!important",
-// },
-// AccordionSummaryExpanded: {
-// 	minHeight: "40px!important",
-// 	height: "40px!important",
-// },
 const AccordionSummary = withStyles(theme => ({
 	root: {
 		//   backgroundColor: 'rgba(0, 0, 0, .03)',
@@ -125,7 +116,7 @@ const highPrecision = cyan[400];
 const lowPrecision  = yellow[600];
 
 
-export default function DrawerContent() {
+export default function DrawerContent(props) {
 	const classes = useStyles();
 	// TODO for later: I need to read this info from the dataset.
 
@@ -158,7 +149,7 @@ export default function DrawerContent() {
 
 	const videoPreviewList = videoPreview.map ((item, i) => {
 		return (
-			<VideoPreview key={item.id} data={item} style ={(i===videoPreview.length -1 ? {marginBottom: "15px"} : {})}/>
+			<VideoPreview key={item.id} data={item} style ={(i===videoPreview.length -1 ? {marginBottom: "15px"} : {})} onVideoClick={() => props.onVideoClick(item.vidId)}/>
 		)
 	})
 

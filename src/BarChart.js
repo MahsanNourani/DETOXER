@@ -5,7 +5,7 @@ import { select } from 'd3-selection'
 import * as d3 from 'd3';
 import { Grid, Typography, withStyles} from '@material-ui/core'
 import './BarChart.css'
-import {pink} from '@material-ui/core/colors'
+// import {pink} from '@material-ui/core/colors'
 const margin = {top: 20, right: 0, bottom: 20, left: 25};
 
 const styles = {
@@ -42,9 +42,7 @@ class BarChart extends Component {
 	componentDidMount() {
 		this.createBarChart()
 	}
-	// componentDidUpdate() {
-	// 	this.createBarChart()
-	// }
+
 	createBarChart() {
 		const node = this.node;
 		const y = scaleLinear()

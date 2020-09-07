@@ -1,0 +1,25 @@
+{
+  "globalInfo": {
+    "accuracy": 98.99,
+    "falsePositiveRate": 0.00,
+    "falseNegativeRate": 0.18,
+    "highestPrecisionObjects": [
+      { "object": "plate", "score": 98.85 },
+      { "object": "onion", "score": 95.72 },
+      { "object": "knife", "score": 91.11 }
+    ],
+    "lowestPrecisionObjects": [
+      { "object": "carrot", "score": 83.85 },
+      { "object": "bowl", "score": 80.65 },
+      { "object": "cucumber", "score": 61.76 }
+    ]
+  },
+  "videoInfo": [
+      { "vidId": "s13-d21", "id": 1, "tags": [ "enter", "dry", "drawer", "plate", "counter", "fridge" ] , "fPositive": 36, "fNegative": 47 },
+      { "vidId": "s13-d23", "id": 2, "tags": [ "take out", "cut", "bowl", "carrot", "fridge", "drawer" ] , "fPositive": 84, "fNegative": 120 },
+      { "vidId": "s13-d27", "id": 3, "tags": [ "close", "open", "peel", "plate", "cupboard", "cutting board" ]  , "fPositive": 88, "fNegative": 133 },
+      { "vidId": "s13-d45", "id": 4, "tags": [ "throw", "shake", "hand", "plate", "garbage", "counter" ] , "fPositive": 73, "fNegative": 141 },
+      { "vidId": "s14-d27", "id": 5, "tags": [ "wash", "open", "peel", "bowl", "drawer", "cutting board" ] , "fPositive": 90, "fNegative": 113 },
+      { "vidId": "s14-d29", "id": 6, "tags": [ "enter", "pull apart", "parsley", "bowl", "sink", "plastic bag" ] , "fPositive": 163, "fNegative": 320 }
+  ]
+}

@@ -1,0 +1,58 @@
+move, action
+wash, action
+enter, action
+cut, action
+add, action
+throw, action
+peel, action
+shake, action
+put in, action
+stir, action
+dry, action
+close, action
+open, action
+gather, action
+pull apart, action
+pour, action
+take out, action
+pineapple, object
+pepper, object
+onion, object
+potato, object
+cucumber, object
+carrot, object
+knife, object
+green beans, object
+plate, object
+bowl, object
+parsley, object
+plastic bag, object
+frying pan, object
+bundle, object
+chive, object
+stove, object
+spice shaker, object
+front peeler, object
+peel(o), object
+water, object
+bottle, object
+spatula, object
+cutting board, object
+drawer, object
+hand, object
+counter, location
+drawer(l), location
+cupboard, location
+fridge, location
+bowl(l), location
+frying pan(l), location
+plate(l), location
+stove(l), location
+pot, location
+spice holder, location
+plastic box, location
+plastic bag(l), location
+sink, location
+tap, location
+cutting board(l), location
+garbage, location

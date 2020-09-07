@@ -13,7 +13,7 @@
     /* border: 1px solid #3a4cb13b; */
     border-radius: 4px;
     text-align: center;
-    background: #0e1121;
+    background: /*#0e1121;*/ black;
 }
 
 .control-box {

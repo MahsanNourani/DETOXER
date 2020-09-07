@@ -3,7 +3,7 @@ import React, {useRef} from 'react';
 // Note to self: CLSX is a dynmaic conditional class joining framework.
 import clsx from 'clsx';
 
-import { Drawer as MUIDrawer, Button, Typography, AppBar, Toolbar, IconButton, Grid } from '@material-ui/core';
+import { Drawer as MUIDrawer, Typography, AppBar, Toolbar, IconButton, Grid } from '@material-ui/core';
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
 import { makeStyles } from '@material-ui/core/styles';
 import DrawerContent from './DrawerContent';
@@ -95,13 +95,26 @@ const useStyles = makeStyles(theme => ({
 export default function MainLayout() {
 	const classes = useStyles();
 
-	const drawerOpen = () => { setOpen(true) };
-	const drawerClose = () => { setOpen(false) };
+	// const drawerOpen = () => { setOpen(true) };
+	// const drawerClose = () => { setOpen(false) };
 	const drawerToggle = () => { setOpen(!open) };
+
+	const [currentVidData, setVidData] = React.useState("");
+	const [currentVidSrc, setVidSrc] = React.useState("https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4");
+
+	// Callback function passed to the children (final stop, the button on the side panel to inspect video) and passed to onClick.
+	const setVideoAndData = (videoName) => {
+		const videoSrc = "https://indie.cise.ufl.edu/Pineapple/assets/videos/" + videoName +".mp4";
+		const videoData = "probs." + videoName + ".mp4.csv";
+		
+		setVidSrc (videoSrc);
+		setVidData(videoData);
+	}
 
 	const player = useRef(null); 
 
 	const [open, setOpen] = React.useState(true);
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
@@ -115,17 +128,13 @@ export default function MainLayout() {
 				</Toolbar>
 			</AppBar>
 			<MUIDrawer variant="persistent" open={open} anchor="left" className={classes.drawer} classes={{ paper: classes.drawerPaper, }}>
-				{/* <Typography variant="h2" color="initial"> This is a test!</Typography>
-                <Button variant="contained" color="secondary" onClick={drawerClose}>
-                    close drawer
-                </Button> */}
-				<DrawerContent />
+				<DrawerContent onVideoClick={setVideoAndData}/>
 			</MUIDrawer>
 			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
 				<div className={classes.drawerHeader}>
 					 <Grid container>
 					 	<Grid item md={6}>
-							<VideoPlayer ref={player} source="https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4"/>
+							<VideoPlayer ref={player} source={currentVidSrc} data={currentVidData}/>
 						</Grid>
 					 </Grid>
 				</div>

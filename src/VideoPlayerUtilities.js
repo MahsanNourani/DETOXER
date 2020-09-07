@@ -1,11 +1,10 @@
 import React from 'react';
-import {Slider, makeStyles, Grid} from '@material-ui/core';
+import {makeStyles, Grid} from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 import PauseIcon from '@material-ui/icons/Pause';
 import ReplayIcon from '@material-ui/icons/Replay';
 import './videoPlayer.css';
-import clsx from 'clsx';
 
 const useStyles = makeStyles (theme => ({
     slider: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, Card, ListItem, ListItemIcon, ListItemText, CardMedia, CardContent, Chip, makeStyles, List, Divider, Button } from '@material-ui/core';
+import { Typography, Grid, Card, ListItem, ListItemIcon, ListItemText, CardMedia, CardContent, Chip, makeStyles, Divider, Button } from '@material-ui/core';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import SearchIcon from '@material-ui/icons/Search';
@@ -113,8 +113,9 @@ export default function VideoPreview(props) {
 		<Grid item xs={12} style={props.style}>
 			<Card variant="outlined" classes={{root: classes.root}}>
 				<div style={{alignItems:'center'}}>
-					<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.jpg`)} className={classes.cover} />
-					<Button color="primary" size="small" variant="outlined" startIcon={<SearchIcon />} classes={{startIcon: classes.buttonIcon, outlinedPrimary: classes.button}}> Inspect Video </Button>
+					<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.png`)} className={classes.cover} />
+					<Button color="primary" size="small" variant="outlined" startIcon={<SearchIcon />} onClick={props.onVideoClick}
+						classes={{startIcon: classes.buttonIcon, outlinedPrimary: classes.button}}> Inspect Video </Button>
 				</div>
 				<div className={classes.details}>
 					<CardContent className={classes.cardContent}>

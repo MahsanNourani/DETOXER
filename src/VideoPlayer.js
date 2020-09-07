@@ -7,35 +7,33 @@ import './videoPlayer.css';
 //todo add more comments to describe what's happening
 
 export default class VideoPlayer extends Component {
+  
 	constructor(props) {
 		super();
 		this.state = {
 			url: props.source,
 			playing: true,
 			light: false,
-			// volume: 0.8,
-			// muted: false,
 			played: 0,
 			loaded: 0,
 			duration: 0,
 			playbackRate: 1.0,
-			// loop: false
 		};
 	}
-	handleChangeSource = newSrc => {
+	load = url => {
 		this.setState({
-			url: newSrc,
-			played: 0,
-			loaded: 0,
-		});
-	};
-	// handleVolumeChange = e => this.setState({ volume: parseFloat(e.target.value) });
-
-	// handleToggleMuted = () => this.setState({ muted: !this.state.muted });
-
+		  url,
+		  played: 0,
+		  loaded: 0,
+		})
+	}
 	handleSetPlaybackRate = e => this.setState({ playbackRate: (this.state.playbackRate === 1) ? 2 : 1 });
 
-	handlePlayPause = () => this.setState({ playing: !this.state.playing });
+	handlePlayPause = () => {
+		console.log("Source from props: " + this.props.source);
+		console.log("source from state: " + this.state.url);
+		this.setState({ playing: !this.state.playing })
+	};
 
 	handlePlay = () => this.setState({ playing: true });
 
@@ -75,7 +73,7 @@ export default class VideoPlayer extends Component {
 						className='react-window'
 						width='100%'
 						height='100%'
-						url={this.state.url}
+						url={this.props.source}
 						playing={this.state.playing}
 						light={this.state.light}
 						playbackRate={this.state.playbackRate}
