@@ -97,6 +97,7 @@ export default class VideoPlayer extends Component {
 						change={this.handleSeekChange.bind(this)}
 						up={this.handleSeekMouseUp.bind(this)}
 						status={this.state}
+						videoData={this.props.data}
 						/>
 				</Grid>
       	</Grid>

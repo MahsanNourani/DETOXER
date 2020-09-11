@@ -36,8 +36,6 @@ class BarChart extends Component {
 			id: this.props.id,
 			title: this.props.title,
 		}
-
-		console.log(this.state.height);
 	}
 	componentDidMount() {
 		this.createBarChart()

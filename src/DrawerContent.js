@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.dark,
 		border: "1px solid #e0e0e0",
 		borderRadius: "3px",
-		marginBottom: theme.spacing(1),
+		margin: theme.spacing(1),
 	},
 	sticky: {
 		position: '-webkit-sticky',
@@ -61,8 +61,9 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor:'white'
 	},
 	videoAccordion: {
-		maxHeight: '580px',
+		maxHeight: '620px',
 		overflowY: 'scroll',
+		paddingTop: theme.spacing(1),
 	},
 	fontSizeLarge: {
 		fontSize:30,
@@ -71,7 +72,8 @@ const useStyles = makeStyles(theme => ({
 
 const Accordion = withStyles(theme => ({
 	root: {
-		border: '1px solid rgba(0, 0, 0, .125)',
+		border: 0,
+		borderTop: '1px solid rgba(0, 0, 0, .125)!important',
 		// borderBottom: 'none',
 		// borderTop: 'none',
 		boxShadow: 'none',
@@ -196,7 +198,7 @@ export default function DrawerContent(props) {
 					<Typography>Videos to Explore</Typography>
 				</AccordionSummary>
 				<AccordionDetails className={clsx(classes.AccordionDetailsRoot, classes.videoAccordion)}>
-					<Grid container spacing={2} alignItems="center" justify="center">
+					<Grid container spacing={1} alignItems="center" justify="center">
 						{videoPreviewList}
 					</Grid>
 				</AccordionDetails>

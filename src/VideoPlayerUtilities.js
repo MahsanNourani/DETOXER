@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles, Grid} from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import IconButton from '@material-ui/core/IconButton';
 import PauseIcon from '@material-ui/icons/Pause';
 import ReplayIcon from '@material-ui/icons/Replay';
 import './videoPlayer.css';
+import Heatmap from './Heatmap';
+import * as d3 from 'd3';
+
 
 const useStyles = makeStyles (theme => ({
     slider: {
@@ -15,6 +18,11 @@ const useStyles = makeStyles (theme => ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center"
+    },
+    heatmapContainer: {
+        maxHeight: 300,
+        overflow: "auto",
+        // overflowY: "scroll",
     }
 }));
 
@@ -77,14 +85,65 @@ export const PlayerControls = (props) => {
     const handleSeekChange = (t) => props.change(t);
     const handleSeekUp = (t) => props.up(t);
     const handleProgress = (t) => props.progress(t);
-    
+
+    const [heatmaps, setHeatMaps] = React.useState([]);
+    const [data, setData] = React.useState(null);
+
+    useEffect(fetchData, [props.videoData]);
+    useEffect(updateHeatmaps, [data]);
+
+    function fetchData () {
+        d3.csv(require(`./data/${props.videoData}`))
+          .then((d) => {
+              setData(d);
+              console.log(d);
+           })
+          .catch(function(error){
+            console.log(error)   
+         });
+    }
+
+    function updateHeatmaps(){
+        if (data && data.length) {
+            const temp = data.map((item, index) => {
+                let key = index + "." + props.videoData;
+                return (
+                    <Heatmap size={[400, 50]} data={item} key={key} title={item.componentName} type={item.type}/>
+                )
+            });
+            setHeatMaps(temp);
+            console.log(heatmaps);
+        }
+    }
+
+    // useEffect(() => {
+    //         d3.csv(require(`./data/${props.videoData}`)).then((data) => {
+    //         const tempHeatmaps = data.map((item, index) => {
+    //             // console.log("heatmap created!")
+    //             return (
+    //                 <Heatmap size={[400, 50]} data={item} key={index} title={item.componentName} type={item.type}/>
+    //             )
+    //         });
+    //         setHeatMaps(tempHeatmaps);
+    //         // console.log(heatmaps)
+    //     });
+    // }, [heatmaps])
+   
     return (
-        <Grid container spacing={1}>
-            <PlayToggleButton playing={props.status.playing} onClick = {handlePlayBtn} />
-            <ResetButton onClick = {handleReset} />
-            <Grid item xs={9} className={classes.progressBarGrid}>
-                <ProgressBar played={props.status.played} down={handleSeekDown} change={handleSeekChange} up={handleSeekUp} progress={handleProgress}/>
+        <React.Fragment>
+            <Grid container spacing={1} alignItems="center" justify="center">
+                <PlayToggleButton playing={props.status.playing} onClick = {handlePlayBtn} />
+                <ResetButton onClick = {handleReset} />
+                <Grid item xs={9} className={classes.progressBarGrid}>
+                    <ProgressBar played={props.status.played} down={handleSeekDown} change={handleSeekChange} up={handleSeekUp} progress={handleProgress}/>
+                </Grid>
             </Grid>
-        </Grid>
+            <Grid container alignItems="center" justify="center" spacing={1} className={classes.heatmapContainer}>
+                {heatmaps}
+                {/* {data?.map((item, index) => (
+                    <Heatmap size={[400, 50]} data={item} key={index} title={item.componentName} type={item.type}/>
+                ))} */}
+            </Grid>
+        </React.Fragment>
     );
 }

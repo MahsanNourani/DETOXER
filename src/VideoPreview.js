@@ -9,7 +9,9 @@ import { green, red } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
-		border: "1px solid #afadae52",
+		border: 0,
+		borderBottom: `1px solid ${theme.palette.primary.main}`,
+		borderRadius: 0,
 		'&:hover': {
 			backgroundColor: theme.palette.secondary.transparent,
 		},
@@ -36,9 +38,11 @@ const useStyles = makeStyles(theme => ({
 	details: {
 		display: 'flex',
 		flexDirection: 'column',
+		width: 280,
 	 },
 	cover: {
 		height: 100,
+		borderRadius: 3,
 	},
 	// tag: {
 	// 	// border: `0.5px solid ${theme.palette.secondary.main}`,
@@ -69,11 +73,18 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	chip: {
+		flexWrap: 'wrap',
 		backgroundColor: theme.palette.secondary.light,
 		'&:hover': {
 			backgroundColor: theme.palette.secondary.main,
 			opacity: 0.8
 		},
+	},
+	mainGrid: {
+		padding: `0px ${theme.spacing(1)/2}px !important`,
+	},
+	listItemIconRoot: {
+		fontSize: '0.75rem',
 	}
 }));
 
@@ -82,6 +93,7 @@ export default function VideoPreview(props) {
 	const data = props.data;
 	const videoChips =
 		<div className={classes.rootDiv}>
+			<Typography variant="subtitle2">Top 5 Components:</Typography>
 			{data.tags.map((tag, index) => {
 				return (
 					<Chip size="small" label={tag} key={index} className={classes.chip}/>
@@ -101,7 +113,7 @@ export default function VideoPreview(props) {
 					{item.icon}
 				</ListItemIcon>
 				<ListItemText secondary={item.text} secondaryTypographyProps={{color:"textPrimary"}}/>
-				<ListItemIcon color="secondary">
+				<ListItemIcon color="secondary" classes={{root: classes.listItemIconRoot}}>
 					{`${item.value}%`}
 				</ListItemIcon>
 			</ListItem>
@@ -110,7 +122,7 @@ export default function VideoPreview(props) {
 	
 	
 	return (
-		<Grid item xs={12} style={props.style}>
+		<Grid item xs={12} style={props.style} className={classes.mainGrid}>
 			<Card variant="outlined" classes={{root: classes.root}}>
 				<div style={{alignItems:'center'}}>
 					<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.png`)} className={classes.cover} />
@@ -119,7 +131,6 @@ export default function VideoPreview(props) {
 				</div>
 				<div className={classes.details}>
 					<CardContent className={classes.cardContent}>
-						<Typography variant="subtitle2">Top 5 Components:</Typography>
 						{videoChips}
 						<Divider className={classes.divider}/>
 						<Typography variant="subtitle2">Estimations:</Typography>

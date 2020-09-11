@@ -15,7 +15,7 @@ import VideoPlayer from './VideoPlayer';
 
 // Make sure to change the drawer width based on the size of the final drawer.
 // Note the number is not a string or in pixels. The shifting won't work strings. The browser automatically translates this into pixels. (why?)
-const drawerWidth = 400;
+const drawerWidth = 410;
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 	// With this below, the size will be set to the drawerWidth. Without it, it will fit the content.
 	drawerPaper: {
 		width: drawerWidth,
-		padding: '10px',
+		padding: 0,
 		maxHeight: "100vh",
 		overflowY: "hidden",
 		borderTop: 0,
@@ -99,7 +99,7 @@ export default function MainLayout() {
 	// const drawerClose = () => { setOpen(false) };
 	const drawerToggle = () => { setOpen(!open) };
 
-	const [currentVidData, setVidData] = React.useState("");
+	const [currentVidData, setVidData] = React.useState("probs.s13-d21.mp4.csv");
 	const [currentVidSrc, setVidSrc] = React.useState("https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4");
 
 	// Callback function passed to the children (final stop, the button on the side panel to inspect video) and passed to onClick.
@@ -133,7 +133,7 @@ export default function MainLayout() {
 			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
 				<div className={classes.drawerHeader}>
 					 <Grid container>
-					 	<Grid item md={6}>
+					 	<Grid item md={5}>
 							<VideoPlayer ref={player} source={currentVidSrc} data={currentVidData}/>
 						</Grid>
 					 </Grid>
