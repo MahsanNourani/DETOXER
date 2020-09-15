@@ -1,0 +1,9 @@
+.active {
+    fill:black;
+}
+
+.mouseout {
+    opacity: 100%;
+    /* initial height */
+    height: 50px; 
+}

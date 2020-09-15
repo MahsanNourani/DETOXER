@@ -43,6 +43,11 @@ export default class VideoPlayer extends Component {
 
 	handleSeekChange = e => this.setState({ played: parseFloat(e.target.value) });
 
+	handleSeekChangeWithHeatmaps = t => {
+		this.setState({played: parseFloat(t)});
+		this.player.seekTo(parseFloat(t));
+	}
+
 	handleReset = e => {this.player.seekTo(0, 'seconds');}
 
 	handleSeekMouseUp = e => {
@@ -95,9 +100,11 @@ export default class VideoPlayer extends Component {
 						replay={this.handleReset.bind(this)}
 						down={this.handleSeekMouseDown.bind(this)}
 						change={this.handleSeekChange.bind(this)}
+						heatChange={this.handleSeekChangeWithHeatmaps.bind(this)}
 						up={this.handleSeekMouseUp.bind(this)}
 						status={this.state}
 						videoData={this.props.data}
+						playing={this.state.playing}
 						/>
 				</Grid>
       	</Grid>

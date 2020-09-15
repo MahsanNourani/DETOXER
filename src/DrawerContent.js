@@ -12,7 +12,7 @@ import VideoPreview from './VideoPreview';
 import { green, red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import clsx from 'clsx';
-import drawerContent from './data/dset2.json';
+import drawerContent from './data/dset.json';
 
 const useStyles = makeStyles(theme => ({
 	listIcon: {
@@ -60,9 +60,13 @@ const useStyles = makeStyles(theme => ({
 		zIndex: 5,
 		backgroundColor:'white'
 	},
-	videoAccordion: {
-		maxHeight: '620px',
+	mainDiv: {
 		overflowY: 'scroll',
+		overflow: 'hidden',
+	},
+	videoAccordion: {
+		// maxHeight: '620px',
+		// overflowY: 'scroll',
 		paddingTop: theme.spacing(1),
 	},
 	fontSizeLarge: {
@@ -157,7 +161,7 @@ export default function DrawerContent(props) {
 
 	return (
 		<React.Fragment>
-			<div> {/* className={classes.sticky}*/}
+			<div className={classes.mainDiv}> {/* className={classes.sticky}*/}
 				<Typography variant="h5" align="center" className={classes.drawerTitle}>
 					Global Information
 				</Typography>

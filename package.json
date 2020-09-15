@@ -16,6 +16,7 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
+    "dev": "webpack --mode development",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -35,5 +36,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.12"
   }
 }

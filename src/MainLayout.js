@@ -71,14 +71,14 @@ const useStyles = makeStyles(theme => ({
 
 	content: {
 		flexGrow: 1,
-		padding: theme.spacing(3),
+		// padding: theme.spacing(3),
 		paddingTop: '48px', // 48px is the height of the appbar
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.leavingScreen,
 		}),
 		marginLeft: -drawerWidth,
-		backgroundColor: "#f4f8ff",
+		// backgroundColor: "#f4f8ff",
 		height: "100vp"
 
 	},

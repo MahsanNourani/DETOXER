@@ -6,13 +6,16 @@ const palette = {
 };
 const themeName = 'Malibu Amaranth Goats';
 
-export default createMuiTheme({ palette, themeName });
-
-
-// Secondary Is Yellow :)
-
-// const palette = {
-//   primary: { main: '#AD1457' },
-//   secondary: { main: '#FFF176' }
+// const typography = {
+//   body1: {
+//     fontSize: '1.2rem',
+//     '@media (min-width:600px)': {
+//       fontSize: '1.5rem',
+//     },
+//     [theme.breakpoints.up('md')]: {
+//       fontSize: '2.4rem',
+//     },
+//   }
 // };
-// const themeName = 'Jazzberry Jam Paris Daisy Flounder';
+
+export default createMuiTheme({ palette, themeName });
