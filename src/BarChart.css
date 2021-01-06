@@ -5,5 +5,25 @@
 }
 
 .barText {
-    font-size: 13px;
+    font-size: 8px;
+}
+
+.axisGrey line {
+    stroke: #0000008a;
+}
+
+.axisGrey path {
+    stroke: #0000008a;
+}
+
+.axisGrey text {
+    fill: #0000008a;
+}
+
+.xAxis text {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(-180deg);
+    text-anchor: end;
+    fill: #3a4cb1;
 }

@@ -5,22 +5,12 @@ import { select } from 'd3-selection'
 import * as d3 from 'd3';
 import { Grid, Typography, withStyles} from '@material-ui/core'
 import './BarChart.css'
-// import {pink} from '@material-ui/core/colors'
-const margin = {top: 20, right: 0, bottom: 20, left: 25};
+// import {indigo} from '@material-ui/core/colors'
+const margin = {top: 20, right: 0, bottom: 70, left: 25};
 
 const styles = {
-	chartTitle: {
-		fontWeight: "bold",
-		color: "white",
-		backgroundColor: "#99aa00",
-		// border: "0.5px solid #f5b8cabd",
-		padding: "6px",
-		fontSize: "14px",
-		borderRadius: "3px",
-		// boxShadow: "2px 3px 7px 1px #faf0f3",
-	},
 	svg: {
-		marginTop: 10,
+		cursor: "default"
 	}
  };
  
@@ -34,7 +24,6 @@ class BarChart extends Component {
 			width: WIDTH - margin.left - margin.right,
 			height: HEIGHT - margin.top - margin.bottom,
 			id: this.props.id,
-			title: this.props.title,
 		}
 	}
 	componentDidMount() {
@@ -52,7 +41,7 @@ class BarChart extends Component {
 
 		var x = d3.scaleBand()
 			.rangeRound([0, this.state.width])
-			.padding(0.1)
+			// .padding(0.1)
 			.domain(this.props.data.map(d => d.object));
 		
 		let svgElement = select(node);
@@ -62,11 +51,12 @@ class BarChart extends Component {
 		
 		g.append("g")
 			.attr("transform", "translate(0," + this.state.height + ")")
-			.call(d3.axisBottom(x))
-		
+			.classed("axisGrey xAxis", true)
+			.call(d3.axisBottom(x).tickPadding([-16])) // 16 is just the padding from the axis
+
 		g.append("g")
 			.call(d3.axisLeft(y))
-			.classed("yaxis", true) // this class can be used later to customize and differentiate between yaxis and xaxis
+			.classed("yaxis axisGrey", true) // this class can be used later to customize and differentiate between yaxis and xaxis
 			.attr("id", this.state.id) //this id will be used to make sure customization based on classes will only be applied to the current component
 			.append("text")
 			.attr("fill", "#000")
@@ -81,42 +71,53 @@ class BarChart extends Component {
 			.classed('group', true);
 		
 		bar.append('rect')
-			.style('fill', this.props.color)
+			.style('fill', (d, i) => {
+				// // Uncomment these if you want to color based on order and not score value. Beware that same probabilites will then have diff. colors!
+				// let colorValue = i / this.props.data.length;
+				// return d3.interpolateRdBu(colorValue);
+				return d3.interpolateCool(1-Number(d.score)/100);
+			})
 			.attr('x', (d) => x(d.object))
 			.attr('y', d => y(Number(d.score)))
 			.attr('rx','1px') //rounded border
 			.attr('ry', '1px') //rounded border
 			.attr('height', d => this.state.height - y(Number(d.score)))
 			.attr('width', x.bandwidth())
-			.classed("barChart", true);
+			.classed("barChart", true)
+			.on("mouseover", function() {
+				d3.select(this).style("opacity", "0.7");
+			})
+			.on("mouseout", function() {
+				d3.select(this).style("opacity", "1");
+			})
 		
 		bar.append('text')
 			.text(function (d) {
-					return d.score + "%";
+				if (d.score)
+					return d.score;
 			})
+			.attr("dy", ".75em")
 			.attr('x', (d,i) => {
-				if (i===0)
-					return 0.5* ((x.bandwidth()+1)/2); // For some reason, the below formula does not work for first item, i = 0;
-				else
-					return (2*i+1)*((x.bandwidth()+1)/2); // based on the position, odd number * half a (rectangle + padding)
+				if (d.score)
+					return (x.bandwidth() * (2*i + 1) - x(d.object)) - x.bandwidth()/2;
 			})
-			.attr('y', (d) => y(Number(d.score)) - 5) // top of the chart - some padding to not attach the number to the chart directly!
+			.attr('y', (d) => y(Number(d.score)) - 10) // top of the chart - some padding to not attach the number to the chart directly!
 			.classed("barText", true)
 		// To only show every other tick to avoid cluttering
-		var ticks = d3.selectAll(`#${this.state.id}.yaxis .tick`);
-		ticks.each(function(_,i){
+		var yticks = d3.selectAll(`#${this.state.id}.yaxis .tick`);
+		yticks.each(function(_,i){
 				if(i%2 !== 0) {
 					d3.select(this).remove();
 				}
 		});
+
 	}
 	render() {
 		const { classes } = this.props;
 		return (
-		<Grid item xs={6} align="center">
+		<Grid item xs={12} align="center">
 			{/* The width and height of the svg is passed from props and before calculating the margins of course 
 			- for the rest, use the this.state.height and this.state.width */}
-			<Typography variant="caption" className={classes.chartTitle}>{this.state.title}</Typography>
 			<svg ref={node => this.node = node} preserveAspectRatio="xMidYMid meet" viewBox={`0 0 ${this.props.size[0]} ${this.props.size[1]}`} className={classes.svg}/>
 		</Grid>
 		)

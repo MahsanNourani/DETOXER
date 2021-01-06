@@ -1,25 +1,29 @@
 {
   "globalInfo": {
-    "accuracy": 98.99,
-    "falsePositiveRate": 0.41,
-    "falseNegativeRate": 17.98,
-    "highestPrecisionObjects": [
-      { "object": "plate", "score": 98.85 },
-      { "object": "onion", "score": 95.72 },
-      { "object": "knife", "score": 91.11 }
-    ],
-    "lowestPrecisionObjects": [
-      { "object": "carrot", "score": 83.85 },
-      { "object": "bowl", "score": 80.65 },
-      { "object": "cucumber", "score": 61.76 }
+    "accuracy": 98.64,
+    "falsePositiveRate": 0.62,
+    "falseNegativeRate": 20.63,
+    "objectPrecisionScores": [
+      { "object": "sponge cloth", "score": 100.0 },
+      { "object": "knife", "score": 100.0 },
+      { "object": "drawer", "score": 97.80 },
+      { "object": "front peeler", "score": 95.45 },
+      { "object": "carrot", "score": 92.98 },
+      { "object": "potato", "score": 92.03 },
+      { "object": "bundle", "score": 90.63 },
+      { "object": "bowl", "score": 88.64 },
+      { "object": "cutting board", "score": 86.67 },
+      { "object": "cucumber", "score": 84.31 },
+      { "object": "hand", "score": 0.00 },
+      { "object": "orange", "score": 0.00 }
     ]
   },
   "videoInfo": [
-      { "vidId": "s13-d21", "id": 1, "tags": [ "cucumber", "dry", "hand", "fridge", "plate" ] , "fPositive": 0.34, "fNegative": 4.39 },
-      { "vidId": "s13-d23", "id": 2, "tags": [ "front peeler", "carrot", "bowl", "fridge", "peel" ] , "fPositive": 0.49, "fNegative": 6.97 },
-      { "vidId": "s13-d27", "id": 3, "tags": [ "peel", "onion", "peel", "plate", "cupboard" ]  , "fPositive": 0.32, "fNegative": 6.15 },
-      { "vidId": "s13-d45", "id": 4, "tags": [ "pepper", "pull apart", "dry", "garbage", "hand" ] , "fPositive": 0.46, "fNegative": 9.60 },
-      { "vidId": "s14-d27", "id": 5, "tags": [ "peel", "onion", "bowl", "throw", "garbage" ] , "fPositive": 0.40, "fNegative": 6.80 },
-      { "vidId": "s14-d29", "id": 6, "tags": [ "sink", "plastic bag", "parsley", "put in", "bowl" ] , "fPositive": 0.43, "fNegative": 14.49 }
-  ]
+    { "vidId": "s13-d21", "id": 1, "tags": [ "cucumber", "cutting board", "cut", "take out", "fridge" ] , "fPositive": 0.59, "fNegative": 13.35 },
+    { "vidId": "s14-d43", "id": 2, "tags": [ "potato", "peel", "cut", "take out", "cupboard" ] , "fPositive": 0.55, "fNegative": 8.09 },
+    { "vidId": "s15-d23", "id": 3, "tags": [ "carrot", "peel", "cutting board", "cut", "take out" ]  , "fPositive": 0.53, "fNegative": 14.74 },
+    { "vidId": "s21-d23", "id": 4, "tags": [ "carrot", "peel", "cutting board", "cut", "take out" ] , "fPositive": 0.52, "fNegative": 9.45 },
+    { "vidId": "s23-d43", "id": 5, "tags": [ "potato", "peel", "cutting board", "cut", "take out" ] , "fPositive": 0.61, "fNegative": 13.11 },
+    { "vidId": "s24-d21", "id": 6, "tags": [ "cucumber", "cutting board", "cut", "take out", "fridge" ] , "fPositive": 0.90, "fNegative": 14.28 }
+]
 }

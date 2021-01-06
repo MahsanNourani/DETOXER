@@ -77,7 +77,7 @@ export default class VideoPlayer extends Component {
 						ref={this.ref}
 						className='react-window'
 						width='100%'
-						height='100%'
+						height='75%'
 						url={this.props.source}
 						playing={this.state.playing}
 						light={this.state.light}

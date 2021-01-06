@@ -3,12 +3,29 @@ import React, {useRef} from 'react';
 // Note to self: CLSX is a dynmaic conditional class joining framework.
 import clsx from 'clsx';
 
-import { Drawer as MUIDrawer, Typography, AppBar, Toolbar, IconButton, Grid } from '@material-ui/core';
+import { Drawer as MUIDrawer, Typography, AppBar, Toolbar, IconButton, Grid, Button, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
+import LaunchIcon from '@material-ui/icons/Launch';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import { makeStyles } from '@material-ui/core/styles';
 import DrawerContent from './DrawerContent';
 import VideoPlayer from './VideoPlayer';
-// import {pink} from '@material-ui/core/colors';
+import Dialoge from './Dialoge';
+import globalInformation from './data/dset.json';
+
+// These components are loaded for the draggable dilaoge box for the global information.
+import Draggable from 'react-draggable';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import CloseIcon from '@material-ui/icons/Close';
+import {cyan, lightBlue, green, red, indigo, orange} from '@material-ui/core/colors';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
+import BarChart from './BarChart';
 
 //React.Fragment --> similar to div but for when you cannot have items within a div as they'll lose their functionality! 
 // Use Fragment simialar to d3.group??
@@ -41,9 +58,16 @@ const useStyles = makeStyles(theme => ({
 	close: {
 		transform: "scaleX(-1)",
 	 },
+	flip: {
+		transform: "scale(-1,-1)",
+	},
 	menuButton: {
 		marginRight: theme.spacing(2),
 		color: theme.palette.primary.contrastText,
+	},
+	navbarButton: {
+		color: theme.palette.primary.contrastText,
+		marginLeft: "auto",
 	},
 	drawer: {
 		width: drawerWidth,
@@ -63,12 +87,15 @@ const useStyles = makeStyles(theme => ({
 	drawerHeader: {
 		display: 'flex',
 		alignItems: 'center',
-		padding: theme.spacing(3, 0),
+		padding: theme.spacing(3, 0)/2,
 		// necessary for content to be below app bar
 		...theme.mixins.toolbar,
 		justifyContent: 'flex-end',
 	 },
-
+	toolbar: {
+		height: "41px",
+		minHeight: "41px",
+	},
 	content: {
 		flexGrow: 1,
 		// padding: theme.spacing(3),
@@ -82,22 +109,71 @@ const useStyles = makeStyles(theme => ({
 		height: "100vp"
 
 	},
-
 	contentShift: {
 		transition: theme.transitions.create('margin', {
 			easing: theme.transitions.easing.easeOut,
 			duration: theme.transitions.duration.enteringScreen,
 		}),
 		marginLeft: 0,
+	},
+
+	userTaskButton: {
+		marginLeft: "auto",
+		paddingTop: 0,
+		paddingBottom: 0,
+	},
+	cardStyle: {
+		minWidth: 400,
+		cursor: "move",
+	},
+	hidden:{
+		display: "none",
+	},
+	fontSizeLarge: {
+		fontSize:30,
+	},
+	listIcon: {
+		color: theme.palette.secondary.dark,
+	},
+	listPadding: {
+		paddingTop: 0,
+		paddingBottom: 0,
+	},
+	listIconRoot: {
+		fontSize: "0.75rem",
+	},
+	listItemRoot: {
+		paddingTop: 2,
+		paddingBottom: 2,
+	},
+	chartTitle: {
+
+	},
+	highlight: {
+		color: theme.palette.secondary.main,
+		fontWeight: "bold",
+	},
+	cardActionsRoot: {
+		padding: 0,
+	},
+	cardContentRoot: {
+		paddingTop: 0,
+		paddingBottom: "0!important",
+	},
+	closeIconRoot: {
+		marginLeft: "auto",
 	}
 }));
 
 export default function MainLayout() {
 	const classes = useStyles();
 
-	// const drawerOpen = () => { setOpen(true) };
-	// const drawerClose = () => { setOpen(false) };
-	const drawerToggle = () => { setOpen(!open) };
+	const drawerToggle = () => { setOpen(!open)};
+	const dialogeOpen = () => {setDialogeOpen(true);};
+	const dialogeClose = () => {setDialogeOpen(false);};
+
+	const globalDialogeToggle = () => {setGlobalInfoOpen(!openGlobalInfo)}
+	const globalDialogeClose = () => {setGlobalInfoOpen(false)}
 
 	const [currentVidData, setVidData] = React.useState("probs.s13-d21.mp4.csv");
 	const [currentVidSrc, setVidSrc] = React.useState("https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4");
@@ -114,17 +190,52 @@ export default function MainLayout() {
 	const player = useRef(null); 
 
 	const [open, setOpen] = React.useState(true);
+	const [openDialoge, setDialogeOpen] = React.useState(false); //user Study task
+
+	const [openGlobalInfo, setGlobalInfoOpen] = React.useState(true); //used to toggle open/close for the global info dialoge box
+
+	const globalInfo = globalInformation.globalInfo;
+	const precisionData = globalInfo.objectPrecisionScores;
+
+	const [items, setItems] = React.useState([
+		{ text: "Overall Detection Accuracy", value: globalInfo.accuracy, icon: <FiberManualRecordIcon fontSize="large" style={{color:indigo.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+		{ text: "Overall Wrongly Detected", value: globalInfo.falsePositiveRate, icon: <FiberManualRecordIcon fontSize="large" style={{color:red.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+		{ text: "Overall Failed to Detect", value: globalInfo.falseNegativeRate, icon: <FiberManualRecordIcon fontSize="large" style={{color:orange.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+	]);
+	const listItems = items.map((item, index) => {
+		return (
+			<ListItem key={index} classes={{root: classes.listItemRoot}}>
+				<ListItemIcon classes={{root: classes.listIconRoot}}>
+					{item.icon}
+				</ListItemIcon>
+				<ListItemText secondary={item.text} secondaryTypographyProps={{color:"textPrimary"}}/>
+				<ListItemIcon color="secondary" classes={{root: classes.listIconRoot}}>
+					{`${item.value}%`}
+				</ListItemIcon>
+			</ListItem>
+		)
+	});
+
+	const barChartColor = cyan[400];
 
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
-				<Toolbar variant="dense">
+				<Toolbar variant="dense" classes={{root: classes.toolbar}}>
 					<IconButton aria-label="open drawer" onClick={drawerToggle} className={classes.menuButton}>
 						<MenuOpenRoundedIcon className={clsx(!open && classes.close, open && classes.open)}/>
 					</IconButton>
 					<Typography variant="h6" noWrap>
 						Global Visualization tool
-          		</Typography>
+          			</Typography>
+					<Button aria-label="open drawer" className={classes.navbarButton} 
+							startIcon={<LaunchIcon className={classes.flip}/>} onClick={globalDialogeToggle}>
+						Global Information
+					</Button>
+					{/* <Button aria-label="open dialoge" onClick={dialogeOpen} startIcon={<AssignmentIcon />} 
+							color="secondary" variant="contained" className={classes.userTaskButton}>
+						User Study Task
+					</Button> */}
 				</Toolbar>
 			</AppBar>
 			<MUIDrawer variant="persistent" open={open} anchor="left" className={classes.drawer} classes={{ paper: classes.drawerPaper, }}>
@@ -133,12 +244,46 @@ export default function MainLayout() {
 			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
 				<div className={classes.drawerHeader}>
 					 <Grid container>
-					 	<Grid item md={5}>
+					 	<Grid item md={7}>
 							<VideoPlayer ref={player} source={currentVidSrc} data={currentVidData}/>
+						</Grid>
+						<Grid item md={4}>
+							{GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, precisionData)}
+							
 						</Grid>
 					 </Grid>
 				</div>
 			</main>
+			<Dialoge open={openDialoge} handleClose={dialogeClose}/>
 		</div>
 	)
+}
+
+function GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, precisionData) {
+	return <Draggable handle="#globalInfo">
+		<Card id="globalInfo" className={clsx(classes.cardStyle, !openGlobalInfo && classes.hidden)} raised="true">
+			<CardActions classes={{ root: classes.cardActionsRoot }}>
+				<IconButton classes={{ root: classes.closeIconRoot }} onClick={globalDialogeClose}>
+					<CloseIcon fontSize="small" />
+				</IconButton>
+			</CardActions>
+			<CardContent classes={{ root: classes.cardContentRoot }}>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<List classes={{ padding: classes.listPadding }}>
+							{listItems}
+						</List>
+					</Grid>
+					<Grid item container xs={12} spacing={1}>
+						<Grid item xs={12}>
+							<Typography variant="body1" className={classes.chartTitle}>Detection Confidence per <i className={classes.highlight}>Object</i></Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<BarChart data={precisionData} size={[310, 160]} id="high"/>
+						</Grid>
+					</Grid>
+				</Grid>
+			</CardContent>
+		</Card>
+	</Draggable>;
 }

@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		border: 0,
-		borderBottom: `1px solid ${theme.palette.primary.main}`,
+		// borderBottom: `1px solid ${theme.palette.primary.main}`,
 		borderRadius: 0,
 		'&:hover': {
 			backgroundColor: theme.palette.secondary.transparent,
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 	listItemRoot: {
 		paddingTop: 0,
 		paddingBottom: 0,
-		width: 300,
+		width: 270,
 	},
 	cardContent: {
 		padding: "4px",
@@ -44,19 +44,10 @@ const useStyles = makeStyles(theme => ({
 		height: 100,
 		borderRadius: 3,
 	},
-	// tag: {
-	// 	// border: `0.5px solid ${theme.palette.secondary.main}`,
-	// 	backgroundColor: theme.palette.secondary.dark,
-	// 	color: theme.palette.secondary.contrastText,
-	// 	// color: "#281644",
-	// 	fontSize: "13px",
-	// 	borderRadius: "3px",
-	// 	padding: '3px',
-	// 	marginRight: '2px',
-	// }
 	divider: {
-		marginBottom: theme.spacing(1),
-		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1)/2,
+		marginTop: theme.spacing(1)/2,
+		backgroundColor: '#ef9a9a',
 	},
 	buttonIcon: {
 		margin: 0,
@@ -68,13 +59,14 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.dark,
 		border: "1px solid rgb(130 177 255 / 65%)",
 		'&:hover': {
-			backgroundColor: theme.palette.primary.dark,
+			backgroundColor: theme.palette.secondary.dark,
     		color: "white",
 		},
 	},
 	chip: {
 		flexWrap: 'wrap',
 		backgroundColor: theme.palette.secondary.light,
+		color: theme.palette.secondary.contrastText,
 		'&:hover': {
 			backgroundColor: theme.palette.secondary.main,
 			opacity: 0.8
@@ -85,33 +77,48 @@ const useStyles = makeStyles(theme => ({
 	},
 	listItemIconRoot: {
 		fontSize: '0.75rem',
+	},
+	chipsTitle: {
+		writingMode: "vertical-rl",
+		transform: "rotate(-180deg)",
+		fontSize: "0.8rem",
+		textAlign: "center",
+		color: theme.palette.primary.dark,
 	}
 }));
-
+// writing-mode: vertical-rl;
+//     transform: rotate(-180deg);
 export default function VideoPreview(props) {
 	const classes = useStyles();
 	const data = props.data;
 	const videoChips =
-		<div className={classes.rootDiv}>
-			<Typography variant="subtitle2">Top 5 Components:</Typography>
-			{data.tags.map((tag, index) => {
-				return (
-					<Chip size="small" label={tag} key={index} className={classes.chip}/>
-					// <Typography variant="caption" key={index} className={classes.tag} noWrap>{tag}</Typography>
-				)
-			})}
-		</div>
+		<Grid container className={classes.rootDiv} spacing={1}>
+			<Grid item md={1} className={classes.chipsTitle}>
+				{/* <Typography variant="subtitle2"> */}
+					Top Detected <br/> Components
+			</Grid>
+			<Grid item container md={10} spacing={1}>
+				{data.tags.map((tag, index) => {
+					return (
+						<Grid item>
+							<Chip size="small" label={`${index+1}. ${tag}`} key={index} className={classes.chip}/>
+						</Grid>
+						// <Typography variant="caption" key={index} className={classes.tag} noWrap>{tag}</Typography>
+					)
+				})}
+			</Grid>
+		</Grid>
 
 	const performanceData = [
-		{"value":data.fPositive, "text": "False Positive", "icon": <AddBoxRoundedIcon style={{color:green.A700}}/>}, 
-		{"value":data.fNegative, "text": "False Negative", "icon": <IndeterminateCheckBoxIcon style={{color:red[500]}}/>}
+		{"value":data.fPositive, "text": "Detected Wrongly", "icon": <AddBoxRoundedIcon style={{color:green.A700}}/>}, 
+		{"value":data.fNegative, "text": "Failed to Detect", "icon": <IndeterminateCheckBoxIcon style={{color:red[500]}}/>}
 	];
 	const videoStatus = performanceData.map((item, index) => {
 		return (
 			<ListItem key={index} className={classes.listItemRoot}>
-				<ListItemIcon >
+				{/* <ListItemIcon >
 					{item.icon}
-				</ListItemIcon>
+				</ListItemIcon> */}
 				<ListItemText secondary={item.text} secondaryTypographyProps={{color:"textPrimary"}}/>
 				<ListItemIcon color="secondary" classes={{root: classes.listItemIconRoot}}>
 					{`${item.value}%`}
@@ -124,20 +131,28 @@ export default function VideoPreview(props) {
 	return (
 		<Grid item xs={12} style={props.style} className={classes.mainGrid}>
 			<Card variant="outlined" classes={{root: classes.root}}>
-				<div style={{alignItems:'center'}}>
+				<div style={{alignItems:'center', marginLeft: 4}}>
 					<CardMedia component="img" image={require(`../public/thumbnails/${data.vidId}.png`)} className={classes.cover} />
-					<Button color="primary" size="small" variant="outlined" startIcon={<SearchIcon />} onClick={props.onVideoClick}
-						classes={{startIcon: classes.buttonIcon, outlinedPrimary: classes.button}}> Inspect Video </Button>
+					<Button color="secondary" size="small" variant="outlined" startIcon={<SearchIcon />} onClick={props.onVideoClick}
+						classes={{startIcon: classes.buttonIcon, outlinedSecondary: classes.button}}> Inspect Video </Button>
 				</div>
 				<div className={classes.details}>
 					<CardContent className={classes.cardContent}>
 						{videoChips}
 						<Divider className={classes.divider}/>
-						<Typography variant="subtitle2">Estimations:</Typography>
-						{videoStatus}
+						<Grid container spacing={1}>
+							<Grid item md={1} className={classes.chipsTitle}>
+								Detection <br/> Errors
+							</Grid>
+							<Grid item md={8}>
+								{videoStatus}
+							</Grid>
+						</Grid>
 					</CardContent>
+					
 				</div>
 			</Card>
+			<Divider className={classes.divider}/>
 		</Grid>
 	)
 }

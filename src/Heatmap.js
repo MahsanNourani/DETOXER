@@ -23,7 +23,7 @@ const styles = (theme) => ({
     //     fontSize: document.getElementById('mainDiv').style.width > 1200 ? "20px": "10px",
     // },
     body1: {
-        fontSize: "0.9rem",
+        fontSize: "0.88rem",
         lineHeight: "inherit",
     },
     caption: {
@@ -31,7 +31,7 @@ const styles = (theme) => ({
         color: theme.palette.secondary.dark,
     },
 	svg: {
-        marginTop: 10,
+        marginTop: 0.5 * theme.spacing(1),
 	}
 });
  
@@ -65,12 +65,13 @@ class Heatmap extends Component {
 
         let svgElement = select(node);
 
-        let numOfFrames = Object.keys(this.state.data).length -2;
+        const numOfNonFrameColumns = 3; // This is right now showing order, type, and componentName -- Used for determining num of columns with frames
+
+        let numOfFrames = Object.keys(this.state.data).length - numOfNonFrameColumns;
 
         x.domain([0, numOfFrames]); // domain size is length of row -2 (2 is the number of textual frames)
         
         const rectWidth = this.state.width / numOfFrames; //size of the rectangle based on svg width
-        console.log(rectWidth);
 
         let frameData = []
         for (let j = 1; j <= numOfFrames; j++) {
@@ -99,6 +100,8 @@ class Heatmap extends Component {
                     .style("opacity","40%")
                     .attr("height", `${this.state.height + 20}px`)
                     .classed('active', true);
+                d3.select(`.${this.state.title.replace(/\s/g, "")}Title`)
+                    .classed("titleActive", true);
             })
             .on("mouseleave", (d,i) => {
                 d3.selectAll(`.timeClass${i}`) //d3.event.target to select this element
@@ -106,6 +109,8 @@ class Heatmap extends Component {
                     .attr("height", `${this.state.height}px`)
                     .classed('active', false);
                     // .attr("fill", () => this.state.colors[parseInt(parseInt(d) / 25)%4])
+                d3.select(`.${this.state.title.replace(/\s/g, "")}Title`)
+                    .classed("titleActive", false);
             })
             .on("mouseup", (d,i) => {
                 const videoDuration = document.getElementsByTagName("video")[0].duration;
@@ -123,8 +128,8 @@ class Heatmap extends Component {
 		return (
         <React.Fragment>
             <Grid item xs={2}>
-                <Typography variant="body1" classes={{body1: classes.body1}}> {this.capitalizeFirstLetter(this.state.title)} </Typography>
-                <Typography variant="caption" classes={{caption: classes.caption}}> {this.capitalizeFirstLetter(this.state.type)} </Typography>
+                <Typography variant="body1" classes={{body1: classes.body1}} className={`${this.state.title.replace(/\s/g, "")}Title`} > {this.capitalizeFirstLetter(this.state.title)} </Typography>
+                {/* <Typography variant="caption" classes={{caption: classes.caption}}> {this.capitalizeFirstLetter(this.state.type)} </Typography> */}
             </Grid>
             <Grid item xs={9} className="svgParent">
                 {/* The width and height of the svg is passed from props and before calculating the margins of course 
