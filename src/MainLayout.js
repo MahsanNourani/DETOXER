@@ -3,9 +3,10 @@ import React, {useRef} from 'react';
 // Note to self: CLSX is a dynmaic conditional class joining framework.
 import clsx from 'clsx';
 
-import { Drawer as MUIDrawer, Typography, AppBar, Toolbar, IconButton, Grid, Button, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { Drawer as MUIDrawer, Typography, AppBar, Toolbar, IconButton, Grid, Button, List, ListItem, ListItemText, ListItemIcon, TextField } from '@material-ui/core';
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded';
 import LaunchIcon from '@material-ui/icons/Launch';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { makeStyles } from '@material-ui/core/styles';
 import DrawerContent from './DrawerContent';
@@ -24,6 +25,7 @@ import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox'
 import CloseIcon from '@material-ui/icons/Close';
 import {cyan, lightBlue, green, red, indigo, orange} from '@material-ui/core/colors';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 
 import BarChart from './BarChart';
 
@@ -67,6 +69,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	navbarButton: {
 		color: theme.palette.primary.contrastText,
+	},
+	navbarButtons: {
 		marginLeft: "auto",
 	},
 	drawer: {
@@ -126,6 +130,11 @@ const useStyles = makeStyles(theme => ({
 		minWidth: 400,
 		cursor: "move",
 	},
+	notebookCardStyle: {
+		minWidth: 400,
+		cursor: "move",
+		backgroundColor: theme.palette.secondary.notebook,
+	},
 	hidden:{
 		display: "none",
 	},
@@ -160,8 +169,15 @@ const useStyles = makeStyles(theme => ({
 		paddingTop: 0,
 		paddingBottom: "0!important",
 	},
+	notebookCardContent: {
+		paddingTop: 0,
+	},
 	closeIconRoot: {
 		marginLeft: "auto",
+	},
+	notebook: {
+		fontSize: "14px",
+		color: "black",
 	}
 }));
 
@@ -174,6 +190,9 @@ export default function MainLayout() {
 
 	const globalDialogeToggle = () => {setGlobalInfoOpen(!openGlobalInfo)}
 	const globalDialogeClose = () => {setGlobalInfoOpen(false)}
+
+	const notebookToggle = () => {setNotebookOpen(!openNotebook)}
+	const notebookClose = () => {setNotebookOpen(false)}
 
 	const [currentVidData, setVidData] = React.useState("probs.s13-d21.mp4.csv");
 	const [currentVidSrc, setVidSrc] = React.useState("https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4");
@@ -193,6 +212,7 @@ export default function MainLayout() {
 	const [openDialoge, setDialogeOpen] = React.useState(false); //user Study task
 
 	const [openGlobalInfo, setGlobalInfoOpen] = React.useState(true); //used to toggle open/close for the global info dialoge box
+	const [openNotebook, setNotebookOpen] = React.useState(true); // used to toggle open/close the notebook (user study!)
 
 	const globalInfo = globalInformation.globalInfo;
 	const precisionData = globalInfo.objectPrecisionScores;
@@ -216,8 +236,6 @@ export default function MainLayout() {
 		)
 	});
 
-	const barChartColor = cyan[400];
-
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
@@ -228,10 +246,16 @@ export default function MainLayout() {
 					<Typography variant="h6" noWrap>
 						Global Visualization tool
           			</Typography>
-					<Button aria-label="open drawer" className={classes.navbarButton} 
-							startIcon={<LaunchIcon className={classes.flip}/>} onClick={globalDialogeToggle}>
-						Global Information
-					</Button>
+					<div className={classes.navbarButtons}>
+						<Button aria-label="open drawer" className={classes.navbarButton}
+								startIcon={<LaunchIcon className={classes.flip}/>} onClick={globalDialogeToggle}>
+							Global Information
+						</Button>
+						<Button aria-label="open drawer" className={classes.navbarButton}
+								startIcon={<MenuBookIcon className={classes.flip}/>} onClick={notebookToggle}>
+							Notepad
+						</Button>
+					</div>
 					{/* <Button aria-label="open dialoge" onClick={dialogeOpen} startIcon={<AssignmentIcon />} 
 							color="secondary" variant="contained" className={classes.userTaskButton}>
 						User Study Task
@@ -243,13 +267,17 @@ export default function MainLayout() {
 			</MUIDrawer>
 			<main className={clsx(classes.content, { [classes.contentShift]: open, })}>
 				<div className={classes.drawerHeader}>
-					 <Grid container>
+					 <Grid container spacing={1}>
 					 	<Grid item md={7}>
 							<VideoPlayer ref={player} source={currentVidSrc} data={currentVidData}/>
 						</Grid>
-						<Grid item md={4}>
-							{GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, precisionData)}
-							
+						<Grid container item md={4} spacing={1}>
+							<Grid item md={12}>
+								{GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, precisionData)}
+							</Grid>
+							<Grid item md={12}>
+								{Notebook(classes, openNotebook, notebookClose)}
+							</Grid>
 						</Grid>
 					 </Grid>
 				</div>
@@ -261,7 +289,7 @@ export default function MainLayout() {
 
 function GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, precisionData) {
 	return <Draggable handle="#globalInfo">
-		<Card id="globalInfo" className={clsx(classes.cardStyle, !openGlobalInfo && classes.hidden)} raised="true">
+		<Card id="globalInfo" className={clsx(classes.cardStyle, !openGlobalInfo && classes.hidden)} raised="true" elevation={2}>
 			<CardActions classes={{ root: classes.cardActionsRoot }}>
 				<IconButton classes={{ root: classes.closeIconRoot }} onClick={globalDialogeClose}>
 					<CloseIcon fontSize="small" />
@@ -286,4 +314,56 @@ function GlobalInfoCard(classes, openGlobalInfo, globalDialogeClose, listItems, 
 			</CardContent>
 		</Card>
 	</Draggable>;
+}
+
+
+function Notebook(classes, openNotebook, notebookClose) {
+	const bullet = "\u2022";
+	const bulletWithSpace = `${bullet} `;
+	const enter = 13;
+
+	const handleInput = (event) => {
+		const { keyCode, target } = event;
+		const { selectionStart, value } = target;
+
+		if (keyCode === enter) {
+			console.log('a');
+			target.value = [...value]
+				.map((c, i) => i === selectionStart - 1
+					? `\n${bulletWithSpace}`
+					: c
+				)
+				.join('');
+			console.log(target.value);
+
+			target.selectionStart = selectionStart + bulletWithSpace.length;
+			target.selectionEnd = selectionStart + bulletWithSpace.length;
+		}
+
+		if (value[0] !== bullet) {
+			target.value = `${bulletWithSpace}${value}`;
+		}
+	}
+	return (
+		<Draggable handle="#notebook">
+				<Card id="notebook" className={clsx(classes.notebookCardStyle, !openNotebook && classes.hidden)} raised="true" elevation={2}>
+					<CardActions classes={{ root: classes.cardActionsRoot }}>
+						<IconButton classes={{ root: classes.closeIconRoot }} onClick={notebookClose}>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</CardActions>
+					<CardContent classes={{ root: classes.notebookCardContent }}>
+						<Grid container spacing={2}>
+							{/* <Grid item xs={12}>
+								<Typography variant="body1" className={classes.chartTitle}>Hello</Typography>
+							</Grid> */}
+							<Grid item xs={12}>
+								<TextField id="notebookText" className={classes.notebook} label="Use this area to take notes:" rows={11} variant="outlined" color="secondary"
+											multiline helperText fullWidth size="small" onKeyUp={handleInput}/>
+							</Grid>
+						</Grid>
+					</CardContent>
+				</Card>
+		</Draggable>
+	);
 }
