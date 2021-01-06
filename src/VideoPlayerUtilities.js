@@ -12,6 +12,7 @@ import clsx from 'clsx';
 
 // Uncomment for sorting functionality
 // import { Sort } from './Sort';
+import {yellow, amber, orange, deepOrange, red, grey} from '@material-ui/core/colors'
 
 
 const useStyles = makeStyles (theme => ({
@@ -251,16 +252,21 @@ export const PlayerControls = (props) => {
         }
     }
 
+    // colors: ["#3a4cb133", "#ffc500", "#ff5727", "blue", "green", "#c90035"],
+    // colorBoundaries: [10, 40, 60, 80, 95, 100], // percentages
+
     const legendData = [
-        {value: "[0, 0.25)", backgroundColor: "#3a4cb133", color: "black", },
-        {value: "[0.25, 0.5)", backgroundColor: "#ffc500", color: "black", },
-        {value: "[0.5, 0.75)", backgroundColor: "#ff5727", color: "white", },
-        {value: "[0.75, 1]", backgroundColor: "#c90035", color: "white", },
+        {value: "None", backgroundColor: grey[400], color: "black", xs:2}, // 0 - 10 %
+        {value: "Low", backgroundColor: yellow[500], color: "black", xs:2}, // 10 - 40 %
+        {value: "Maybe", backgroundColor: amber[500], color: "black", xs:2}, // 40 - 60 %
+        {value: "Likely", backgroundColor: orange[500], color: "black", xs:2}, // 60 - 80 %
+        {value: "High", backgroundColor: deepOrange[500], color: "white", xs:2}, // 80 - 95 %
+        {value: "Certain", backgroundColor: red[900], color: "white", xs:2}, // 95 - 100 %
     ];
 
     const legend = legendData.map((item,index) => {
         return (
-            <Grid item xs={3} container justify="center" style={{backgroundColor: item.backgroundColor, color: item.color}} key={index}>    
+            <Grid item xs={item.xs} container justify="center" style={{backgroundColor: item.backgroundColor, color: item.color}} key={index}>    
                 <Typography variant="caption">{item.value}</Typography>
             </Grid>
         )
@@ -331,7 +337,7 @@ export const PlayerControls = (props) => {
                     {sortSelect}
                 </Grid> */}
                 <Grid item xs={2}>
-                    <Typography variant="caption">Color guide </Typography>
+                    <Typography variant="caption">Detection Conf.</Typography>
                 </Grid>
                 <Grid item xs={9} container>
                     {legend}

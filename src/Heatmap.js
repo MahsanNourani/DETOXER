@@ -47,7 +47,8 @@ class Heatmap extends Component {
 			type: this.props.type,
             title: this.props.title,
             data: this.props.data,
-            colors: ["#3a4cb133", "#ffc500", "#ff5727", "#c90035"],
+            colors: ["#bdbdbd", "#ffeb3b", "#ffc107", "#ff9800", "#ff5722", "#b71c1c"],
+            colorBoundaries: [10, 40, 60, 80, 95, 100], // percentages
 		}
 	}
 	componentDidMount() {
@@ -92,7 +93,18 @@ class Heatmap extends Component {
             })
             .attr("fill", (d) => {
                 // console.log("d is: " + d + " and parseInt(d)/25 % 4 is: " + parseInt(parseInt(d) / 25)%4);
-                return this.state.colors[parseInt(parseInt(d) / 25)%4]
+                let probability = parseFloat(d);
+                let color = "";
+                for (let i = 0; i < this.state.colorBoundaries.length; i++) {
+                    if (probability <= this.state.colorBoundaries[i]) {
+                        color = this.state.colors[i];
+                        break;
+                    }
+                }
+                if (color === "")
+                    color = this.state.colors[0];
+
+                return color;
             })
             .on("mouseenter", (d,i) => {
                 // console.log(this);
