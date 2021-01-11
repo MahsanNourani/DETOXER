@@ -43,9 +43,10 @@ function logNoteContent() {
   appendLog(logObject);
 }
 
-// setInterval(function(){ // logs the content of the notebook every 30 seconds
-//     logNoteContent()
-// }, 30000)
+setInterval(function () {
+  // logs the content of the notebook every 30 seconds
+  logNoteContent();
+}, 30000);
 
 function appendLog(logObject) {
   var allTheLogs = JSON.parse(localStorage.getItem("logs"));
@@ -57,8 +58,10 @@ function appendLog(logObject) {
 }
 
 export function getLogJson() {
-  let logs = localStorage.getItem("logs");
-  return JSON.parse(logs);
+  let obj = {};
+  obj.logs = JSON.parse(localStorage.getItem("logs"));
+  obj.notes = document.getElementById("notebookText").value;
+  return obj;
 }
 
 function getUrlVars() {
