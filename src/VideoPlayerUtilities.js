@@ -9,7 +9,7 @@ import Heatmap from './Heatmap';
 import Streamgraph from './Streamgraph';
 import * as d3 from 'd3';
 import clsx from 'clsx';
-
+import {createTimeLog} from './Logger';
 // Uncomment for sorting functionality
 // import { Sort } from './Sort';
 import {yellow, amber, orange, deepOrange, red, grey} from '@material-ui/core/colors'
@@ -134,6 +134,7 @@ export const ProgressBar = (props) => {
 
         let newValue = parseFloat(t)*svgWidth + offsetLeft;
         bar.style.left = newValue + "px";
+
     }
     
     const handleSeekMouseDown = e => props.down(e);
@@ -147,6 +148,9 @@ export const ProgressBar = (props) => {
         setSliderValue(e.target.value);
         changeMovingBar(e.target.value, "movingBarHeatmap", "svgParent");
         changeMovingBar(e.target.value, "movingBarStreamgraph", "streamDiv");
+
+        const videoDuration = document.getElementsByTagName("video")[0].duration;
+        createTimeLog ("vid_Sek", "slider", parseFloat(parseFloat(parseFloat(e.target.value) * videoDuration).toFixed(3)));
     }
     return(
         <input id="progressBar" type="range" min="0" max="0.9999" step="any" value={props.played} onMouseDown={handleSeekMouseDown} 
@@ -224,7 +228,6 @@ export const PlayerControls = (props) => {
         d3.csv(require(`./data/${props.videoData}`))
           .then((d) => {
               setData(d);
-              console.log(d);
            })
           .catch(function(error){
             console.log(error)   
@@ -240,7 +243,6 @@ export const PlayerControls = (props) => {
                 )
             });
             setHeatMaps(tempHeatmap);
-            console.log(heatmaps);
         }
     }
 

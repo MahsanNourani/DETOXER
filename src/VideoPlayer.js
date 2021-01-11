@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 import { PlayerControls } from './VideoPlayerUtilities';
 import { Grid } from '@material-ui/core';
 import './videoPlayer.css';
-
+import {createInputLog} from './Logger';
 //todo add more comments to describe what's happening
 
 export default class VideoPlayer extends Component {
@@ -12,7 +12,7 @@ export default class VideoPlayer extends Component {
 		super();
 		this.state = {
 			url: props.source,
-			playing: true,
+			playing: false,
 			light: false,
 			played: 0,
 			loaded: 0,
@@ -30,8 +30,7 @@ export default class VideoPlayer extends Component {
 	handleSetPlaybackRate = e => this.setState({ playbackRate: (this.state.playbackRate === 1) ? 2 : 1 });
 
 	handlePlayPause = () => {
-		console.log("Source from props: " + this.props.source);
-		console.log("source from state: " + this.state.url);
+        (this.state.playing) ? createInputLog("vid_pse") : createInputLog("vid_ply");
 		this.setState({ playing: !this.state.playing })
 	};
 
@@ -82,13 +81,13 @@ export default class VideoPlayer extends Component {
 						playing={this.state.playing}
 						light={this.state.light}
 						playbackRate={this.state.playbackRate}
-						onReady={() => console.log('onReady')}
-						onStart={() => console.log('onStart')}
+						// onReady={() => console.log('onReady')}
+						// onStart={() => console.log('onStart')}
 						onPlay={this.handlePlay}
 						onPause={this.handlePause}
-						onSeek={e => console.log('onSeek', e)}
+						// onSeek={e => console.log('onSeek', e)}
 						onEnded={this.handleEnded}
-						onError={e => console.log('onError', e)}
+						// onError={e => console.log('onError', e)}
 						onProgress={this.handleProgress}
 						onDuration={this.handleDuration} muted
 						onClick={this.handlePlayPause}/>

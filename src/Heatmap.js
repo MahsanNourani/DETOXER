@@ -5,6 +5,7 @@ import { select } from 'd3-selection'
 import * as d3 from 'd3';
 import { Grid, Typography, withStyles} from '@material-ui/core'
 import './Heatmap.css';
+import {createTimeLog} from './Logger';
 // import {pink} from '@material-ui/core/colors'
 const margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -126,11 +127,13 @@ class Heatmap extends Component {
             })
             .on("mouseup", (d,i) => {
                 const videoDuration = document.getElementsByTagName("video")[0].duration;
-                console.log("index = " + i + ", percentage = " + i/numOfFrames);
-                console.log(videoDuration);
+                // console.log("index = " + i + ", percentage = " + i/numOfFrames);
+                // console.log(videoDuration);
                 let seekTime = (i/numOfFrames) * videoDuration;
-                console.log("seekTime= " + seekTime);
+                // console.log("seekTime= " + seekTime);
                 this.props.change(seekTime);
+                
+                createTimeLog ("clk_Htmp", this.state.title, parseFloat(seekTime.toFixed(3)));
             })
             .exit(); //domain = 100 -- number of unique colors = 4 --> 25= 100/4
     }

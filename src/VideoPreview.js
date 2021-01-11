@@ -91,6 +91,7 @@ const useStyles = makeStyles(theme => ({
 export default function VideoPreview(props) {
 	const classes = useStyles();
 	const data = props.data;
+
 	const videoChips =
 		<Grid container className={classes.rootDiv} spacing={1}>
 			<Grid item md={1} className={classes.chipsTitle}>
@@ -100,8 +101,8 @@ export default function VideoPreview(props) {
 			<Grid item container md={10} spacing={1}>
 				{data.tags.map((tag, index) => {
 					return (
-						<Grid item>
-							<Chip size="small" label={`${index+1}. ${tag}`} key={index} className={classes.chip}/>
+						<Grid item key={`${data.vidId}-${tag}`}>
+							<Chip size="small" label={`${index+1}. ${tag}`} className={classes.chip}/>
 						</Grid>
 						// <Typography variant="caption" key={index} className={classes.tag} noWrap>{tag}</Typography>
 					)
@@ -115,7 +116,7 @@ export default function VideoPreview(props) {
 	];
 	const videoStatus = performanceData.map((item, index) => {
 		return (
-			<ListItem key={index} className={classes.listItemRoot}>
+			<ListItem key={`${data.vidId}-${index}`} className={classes.listItemRoot}>
 				{/* <ListItemIcon >
 					{item.icon}
 				</ListItemIcon> */}

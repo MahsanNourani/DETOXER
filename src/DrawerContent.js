@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { List, Typography, ListItem, ListItemText, ListItemIcon, Grid, AccordionDetails, Divider } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core'; 
 import MuiAccordion from '@material-ui/core/Accordion';
@@ -152,14 +152,51 @@ export default function DrawerContent(props) {
 	// const highPrecisionData = globalInfo.objectPrecisionScores;
 	// const lowPrecisionData = globalInfo.lowestPrecisionObjects;
 
+	// const [currentVideo, setCurrentVideo] = React.useState(undefined);
+	// const videoRefs = {};
+
 	// the video name and the thumbnail name should be the same! Each video will only have one thumbnail.
 	const videoPreview = drawerContent.videoInfo;
+	// const videoPreview = videoPreviewTemp.map(item => ({ item, ref: React.createRef() }));
+	// console.log (videoPreview);
+
 
 	const videoPreviewList = videoPreview.map ((item, i) => {
+		// const thisRef = React.createRef();
+		// videoRefs[i] = thisRef;
 		return (
-			<VideoPreview key={item.id} data={item} style ={(i===videoPreview.length -1 ? {marginBottom: "15px"} : {})} onVideoClick={() => props.onVideoClick(item.vidId)}/>
+			<VideoPreview key={item.vidId} data={item}
+						  style ={(i===videoPreview.length -1 ? {marginBottom: "15px"} : {})} onVideoClick={() => props.onVideoClick(item.vidId)}/>
 		)
-	})
+	});
+
+	// console.log("this is what you are looking for: ");
+	// console.log(videoPreviewList[0]);
+	// videoPreviewList[0].props.className = "black";
+
+	// useEffect(() => {
+	// 	// here, your component did mount
+	
+	// 	// try to access component1 using the optional
+	// 	// chaining feature of JavaScript
+	// 	if (videoRefs[0] && videoRefs[0].current)
+	// 		console.log(videoRefs);
+	//   }, [videoRefs]);
+
+	// const onVideoClick = (videoName, ref) => {
+	// 	props.onVideoClick(videoName)
+	// 	if (currentVideo) {
+	// 		console.log("whoops!");
+	// 		currentVideo.style.backgroundColor = "white";
+	// 	}
+	// 	if (ref.current != null) {
+	// 		console.log (ref);
+	// 		setCurrentVideo(ref);
+	// 		// ref.style.backgroundColor = "black";
+	// 	}
+	// 	console.log(ref)
+	// 	console.log(currentVideo)
+	// }
 
 	return (
 		<React.Fragment>
