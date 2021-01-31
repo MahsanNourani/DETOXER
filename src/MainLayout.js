@@ -180,6 +180,8 @@ const useStyles = makeStyles((theme) => ({
 export default function MainLayout() {
   const classes = useStyles();
 
+  const condition = parseInt(localStorage.getItem("cond"));
+
   const drawerToggle = () => {
     setOpen(!open);
   };
@@ -288,12 +290,15 @@ export default function MainLayout() {
             />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Global Visualization tool
+            Activity Detection Tool
           </Typography>
           <div className={classes.navbarButtons}>
             <Button
               aria-label="open global info"
-              className={classes.navbarButton}
+              className={clsx({
+                [classes.navbarButton]: true,
+                [classes.hidden]: !condition,
+              })}
               startIcon={<LaunchIcon className={classes.flip} />}
               onClick={globalDialogeToggle}
             >
@@ -343,7 +348,11 @@ export default function MainLayout() {
               />
             </Grid>
             <Grid container item md={4} spacing={1}>
-              <Grid item md={12}>
+              <Grid
+                item
+                md={12}
+                className={clsx({ [classes.hidden]: !condition })}
+              >
                 <GlobalInfoCard
                   open={openGlobalInfo}
                   close={globalDialogeClose}

@@ -1,211 +1,224 @@
-import React, {useEffect} from 'react';
-import { List, Typography, ListItem, ListItemText, ListItemIcon, Grid, AccordionDetails, Divider } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core'; 
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
+import React, { useEffect } from "react";
+import {
+  List,
+  Typography,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Grid,
+  AccordionDetails,
+  Divider,
+} from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
 // import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 // import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 // import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
-import BarChart from './BarChart';
+import BarChart from "./BarChart";
 // import {cyan, yellow, lightBlue} from '@material-ui/core/colors';
-import VideoPreview from './VideoPreview';
+import VideoPreview from "./VideoPreview";
 // import { green, red } from '@material-ui/core/colors';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // import clsx from 'clsx';
-import drawerContent from './data/dset.json';
+import drawerContent from "./data/dset.json";
 
-const useStyles = makeStyles(theme => ({
-	// listIcon: {
-	// 	color: theme.palette.secondary.dark,
-	// },
-	// listPadding: {
-	// 	paddingTop: 0,
-	// 	paddingBottom: 0,
-	// },
-	// listIconRoot: {
-	// 	fontSize: "3rem",
-	// },
-	// listItemRoot: {
-	// 	paddingTop: 2,
-	// 	paddingBottom: 2,
-	// },
-	AccordionDetailsRoot: {
-		display: "block",
-		padding: theme.spacing(0.5),
-	},
-	dividerBottom: {
-		marginBottom: 10,
-		marginTop: 5,
-		// marginTop: 20,
-	},
-	chartTitle: {
-		marginBottom: theme.spacing(1),
-	},
-	dividerTop: {
-		marginTop: 10,
-		marginBottom:5,
-	},
-	drawerTitle: {
-		fontWeight: "bold",
-		backgroundColor: theme.palette.primary.dark,
-		color: theme.palette.primary.contrastText,
-		// border: "1px solid #e0e0e0",
-		// borderRadius: "3px",
-		padding: theme.spacing(1)/2,
-		marginBottom: theme.spacing(1)/2,
-	},
-	sticky: {
-		position: '-webkit-sticky',
-		position: 'sticky',
-		top: 0,
-		bottom: 10,
-		zIndex: 5,
-		backgroundColor:'white'
-	},
-	mainDiv: {
-		overflowY: 'scroll',
-		overflow: 'hidden',
-	},
-	videoAccordion: {
-		// maxHeight: '620px',
-		// overflowY: 'scroll',
-		paddingTop: theme.spacing(1),
-	}
-	// fontSizeLarge: {
-	// 	fontSize:30,
-	// }
+const useStyles = makeStyles((theme) => ({
+  // listIcon: {
+  // 	color: theme.palette.secondary.dark,
+  // },
+  // listPadding: {
+  // 	paddingTop: 0,
+  // 	paddingBottom: 0,
+  // },
+  // listIconRoot: {
+  // 	fontSize: "3rem",
+  // },
+  // listItemRoot: {
+  // 	paddingTop: 2,
+  // 	paddingBottom: 2,
+  // },
+  AccordionDetailsRoot: {
+    display: "block",
+    padding: theme.spacing(0.5),
+  },
+  dividerBottom: {
+    marginBottom: 10,
+    marginTop: 5,
+    // marginTop: 20,
+  },
+  chartTitle: {
+    marginBottom: theme.spacing(1),
+  },
+  dividerTop: {
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  drawerTitle: {
+    fontWeight: "bold",
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.primary.contrastText,
+    // border: "1px solid #e0e0e0",
+    // borderRadius: "3px",
+    padding: theme.spacing(1) / 2,
+    marginBottom: theme.spacing(1) / 2,
+  },
+  sticky: {
+    position: "-webkit-sticky",
+    position: "sticky",
+    top: 0,
+    bottom: 10,
+    zIndex: 5,
+    backgroundColor: "white",
+  },
+  mainDiv: {
+    overflowY: "scroll",
+    overflow: "auto",
+  },
+  videoAccordion: {
+    // maxHeight: '620px',
+    // overflowY: 'scroll',
+    paddingTop: theme.spacing(1),
+  },
+  // fontSizeLarge: {
+  // 	fontSize:30,
+  // }
 }));
 
-const Accordion = withStyles(theme => ({
-	root: {
-		border: 0,
-		borderTop: '1px solid rgba(0, 0, 0, .125)!important',
-		// borderBottom: 'none',
-		// borderTop: 'none',
-		boxShadow: 'none',
-		'&:not(:last-child)': {
-			borderBottom: 0,
-		},
-		'&:before': {
-			display: 'none',
-		},
-		'&$expanded': {
-			margin: 'auto',
-		},
-	},
-	expanded: {},
+const Accordion = withStyles((theme) => ({
+  root: {
+    border: 0,
+    borderTop: "1px solid rgba(0, 0, 0, .125)!important",
+    // borderBottom: 'none',
+    // borderTop: 'none',
+    boxShadow: "none",
+    "&:not(:last-child)": {
+      borderBottom: 0,
+    },
+    "&:before": {
+      display: "none",
+    },
+    "&$expanded": {
+      margin: "auto",
+    },
+  },
+  expanded: {},
 }))(MuiAccordion);
 
-const AccordionSummary = withStyles(theme => ({
-	root: {
-		//   backgroundColor: 'rgba(0, 0, 0, .03)',
-		//   borderBottom: '1px solid rgba(0, 0, 0, .125)',
-		backgroundColor: theme.palette.primary.dark,//#3F51B5
-		color: "white",
-		marginBottom: -1,
-		minHeight: 35,
-		'&$expanded': {
-			minHeight: 37,
-		},
-	},
-	content: {
-		fontWeight: "900!important",
-		'&$expanded': {
-			margin: '12px 0',
-		},
-	},
-	expandIcon: {
-		color: "white",
-	},
-	expanded: {},
+const AccordionSummary = withStyles((theme) => ({
+  root: {
+    //   backgroundColor: 'rgba(0, 0, 0, .03)',
+    //   borderBottom: '1px solid rgba(0, 0, 0, .125)',
+    backgroundColor: theme.palette.primary.dark, //#3F51B5
+    color: "white",
+    marginBottom: -1,
+    minHeight: 35,
+    "&$expanded": {
+      minHeight: 37,
+    },
+  },
+  content: {
+    fontWeight: "900!important",
+    "&$expanded": {
+      margin: "12px 0",
+    },
+  },
+  expandIcon: {
+    color: "white",
+  },
+  expanded: {},
 }))(MuiAccordionSummary);
 
 // const highPrecision = cyan[400];
 // const lowPrecision  = yellow[600];
 
-
 export default function DrawerContent(props) {
-	const classes = useStyles();
-	// TODO for later: I need to read this info from the dataset.
+  const classes = useStyles();
+  // TODO for later: I need to read this info from the dataset.
 
-	// const globalInfo = drawerContent.globalInfo;
+  // const globalInfo = drawerContent.globalInfo;
 
-	// const [items, setItems] = React.useState([
-	// 	{ text: "Model Accuracy", value: globalInfo.accuracy, icon: <SettingsApplicationsIcon fontSize="large" style={{color:lightBlue.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
-	// 	{ text: "Estimation of False Positives", value: globalInfo.falsePositiveRate, icon: <AddBoxRoundedIcon fontSize="large" style={{color:green.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
-	// 	{ text: "Estimation of False Negatives", value: globalInfo.falseNegativeRate, icon: <IndeterminateCheckBoxIcon fontSize="large" style={{color:red[500]}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
-	// ]);
-	// const listItems = items.map((item, index) => {
-	// 	return (
-	// 		<ListItem key={index} classes={{root: classes.listItemRoot}}>
-	// 			<ListItemIcon classes={{root: classes.listIconRoot}}>
-	// 				{item.icon}
-	// 			</ListItemIcon>
-	// 			<ListItemText primary={item.text} />
-	// 			<ListItemIcon color="secondary">
-	// 				{`${item.value}%`}
-	// 			</ListItemIcon>
-	// 		</ListItem>
-	// 	)
-	// });
+  // const [items, setItems] = React.useState([
+  // 	{ text: "Model Accuracy", value: globalInfo.accuracy, icon: <SettingsApplicationsIcon fontSize="large" style={{color:lightBlue.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+  // 	{ text: "Estimation of False Positives", value: globalInfo.falsePositiveRate, icon: <AddBoxRoundedIcon fontSize="large" style={{color:green.A700}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+  // 	{ text: "Estimation of False Negatives", value: globalInfo.falseNegativeRate, icon: <IndeterminateCheckBoxIcon fontSize="large" style={{color:red[500]}} classes={{fontSizeLarge: classes.fontSizeLarge}}/> },
+  // ]);
+  // const listItems = items.map((item, index) => {
+  // 	return (
+  // 		<ListItem key={index} classes={{root: classes.listItemRoot}}>
+  // 			<ListItemIcon classes={{root: classes.listIconRoot}}>
+  // 				{item.icon}
+  // 			</ListItemIcon>
+  // 			<ListItemText primary={item.text} />
+  // 			<ListItemIcon color="secondary">
+  // 				{`${item.value}%`}
+  // 			</ListItemIcon>
+  // 		</ListItem>
+  // 	)
+  // });
 
-	// const highPrecisionData = globalInfo.objectPrecisionScores;
-	// const lowPrecisionData = globalInfo.lowestPrecisionObjects;
+  // const highPrecisionData = globalInfo.objectPrecisionScores;
+  // const lowPrecisionData = globalInfo.lowestPrecisionObjects;
 
-	// const [currentVideo, setCurrentVideo] = React.useState(undefined);
-	// const videoRefs = {};
+  // const [currentVideo, setCurrentVideo] = React.useState(undefined);
+  // const videoRefs = {};
 
-	// the video name and the thumbnail name should be the same! Each video will only have one thumbnail.
-	const videoPreview = drawerContent.videoInfo;
-	// const videoPreview = videoPreviewTemp.map(item => ({ item, ref: React.createRef() }));
-	// console.log (videoPreview);
+  // the video name and the thumbnail name should be the same! Each video will only have one thumbnail.
+  const videoPreview = drawerContent.videoInfo;
+  // const videoPreview = videoPreviewTemp.map(item => ({ item, ref: React.createRef() }));
+  // console.log (videoPreview);
 
+  const videoPreviewList = videoPreview.map((item, i) => {
+    // const thisRef = React.createRef();
+    // videoRefs[i] = thisRef;
+    return (
+      <VideoPreview
+        key={item.vidId}
+        data={item}
+        style={i === videoPreview.length - 1 ? { marginBottom: "15px" } : {}}
+        onVideoClick={() => props.onVideoClick(item.vidId)}
+      />
+    );
+  });
 
-	const videoPreviewList = videoPreview.map ((item, i) => {
-		// const thisRef = React.createRef();
-		// videoRefs[i] = thisRef;
-		return (
-			<VideoPreview key={item.vidId} data={item}
-						  style ={(i===videoPreview.length -1 ? {marginBottom: "15px"} : {})} onVideoClick={() => props.onVideoClick(item.vidId)}/>
-		)
-	});
+  // console.log("this is what you are looking for: ");
+  // console.log(videoPreviewList[0]);
+  // videoPreviewList[0].props.className = "black";
 
-	// console.log("this is what you are looking for: ");
-	// console.log(videoPreviewList[0]);
-	// videoPreviewList[0].props.className = "black";
+  // useEffect(() => {
+  // 	// here, your component did mount
 
-	// useEffect(() => {
-	// 	// here, your component did mount
-	
-	// 	// try to access component1 using the optional
-	// 	// chaining feature of JavaScript
-	// 	if (videoRefs[0] && videoRefs[0].current)
-	// 		console.log(videoRefs);
-	//   }, [videoRefs]);
+  // 	// try to access component1 using the optional
+  // 	// chaining feature of JavaScript
+  // 	if (videoRefs[0] && videoRefs[0].current)
+  // 		console.log(videoRefs);
+  //   }, [videoRefs]);
 
-	// const onVideoClick = (videoName, ref) => {
-	// 	props.onVideoClick(videoName)
-	// 	if (currentVideo) {
-	// 		console.log("whoops!");
-	// 		currentVideo.style.backgroundColor = "white";
-	// 	}
-	// 	if (ref.current != null) {
-	// 		console.log (ref);
-	// 		setCurrentVideo(ref);
-	// 		// ref.style.backgroundColor = "black";
-	// 	}
-	// 	console.log(ref)
-	// 	console.log(currentVideo)
-	// }
+  // const onVideoClick = (videoName, ref) => {
+  // 	props.onVideoClick(videoName)
+  // 	if (currentVideo) {
+  // 		console.log("whoops!");
+  // 		currentVideo.style.backgroundColor = "white";
+  // 	}
+  // 	if (ref.current != null) {
+  // 		console.log (ref);
+  // 		setCurrentVideo(ref);
+  // 		// ref.style.backgroundColor = "black";
+  // 	}
+  // 	console.log(ref)
+  // 	console.log(currentVideo)
+  // }
 
-	return (
-		<React.Fragment>
-			<div className={classes.mainDiv}> {/* className={classes.sticky}*/}
-				<Typography variant="h5" align="center" className={classes.drawerTitle}>
-					Videos to Explore
-				</Typography>
-				{/* <Divider /> */}
-				{/* <Accordion>
+  return (
+    <React.Fragment>
+      <div className={classes.mainDiv}>
+        {" "}
+        {/* className={classes.sticky}*/}
+        <Typography variant="h5" align="center" className={classes.drawerTitle}>
+          Videos to Explore
+        </Typography>
+        {/* <Divider /> */}
+        {/* <Accordion>
 					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 						<Typography>System Performance Metrics</Typography>
 					</AccordionSummary>
@@ -227,18 +240,23 @@ export default function DrawerContent(props) {
 						</Grid>
 					</AccordionDetails>
 				</Accordion> */}
-			
-			{/* <Accordion defaultExpanded>
+        {/* <Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography>Videos to Explore</Typography>
 				</AccordionSummary>
 				<AccordionDetails className={clsx(classes.AccordionDetailsRoot, classes.videoAccordion)}> */}
-				<Grid container spacing={1} alignItems="center" justify="center" style={{backgroundColor: "white"}}>
-					{videoPreviewList}
-				</Grid>
-				{/* </AccordionDetails>
+        <Grid
+          container
+          spacing={1}
+          alignItems="center"
+          justify="center"
+          style={{ backgroundColor: "white" }}
+        >
+          {videoPreviewList}
+        </Grid>
+        {/* </AccordionDetails>
 			</Accordion> */}
-			</div>
-		</React.Fragment>
-	)
+      </div>
+    </React.Fragment>
+  );
 }

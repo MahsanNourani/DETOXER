@@ -32,6 +32,8 @@ export function initiateLogState() {
   let URL = getUrlVars();
   if (URL["userID"]) localStorage.setItem("userID", URL["userID"]);
   else localStorage.setItem("userID", "ID_NOT_FOUND");
+  if (URL["cond"]) localStorage.setItem("cond", URL["cond"]);
+  else localStorage.setItem("cond", 1);
 }
 
 function logNoteContent() {

@@ -1,29 +1,33 @@
 {
   "globalInfo": {
-    "accuracy": 98.64,
-    "falsePositiveRate": 0.62,
-    "falseNegativeRate": 20.63,
+    "accuracy": 58.99,
+    "falsePositiveRate": 1.11,
+    "falseNegativeRate": 41.72,
     "objectPrecisionScores": [
-      { "object": "sponge cloth", "score": 100.0 },
-      { "object": "knife", "score": 100.0 },
-      { "object": "drawer", "score": 97.80 },
-      { "object": "front peeler", "score": 95.45 },
-      { "object": "carrot", "score": 92.98 },
-      { "object": "potato", "score": 92.03 },
-      { "object": "bundle", "score": 90.63 },
-      { "object": "bowl", "score": 88.64 },
-      { "object": "cutting board", "score": 86.67 },
-      { "object": "cucumber", "score": 84.31 },
-      { "object": "hand", "score": 0.00 },
-      { "object": "orange", "score": 0.00 }
+      { "object": "bowl", "fpr": 0.09, "fnr": 65.38 },
+      { "object": "carrot", "fpr": 1.85, "fnr": 34.17 },
+      { "object": "cucumber", "fpr": 0.46, "fnr": 59.83 },
+      { "object": "cutting board", "fpr": 0.54, "fnr": 44.72 },
+      { "object": "drawer", "fpr": 0.76, "fnr": 27.63 },
+      { "object": "frying pan", "fpr": 0.30, "fnr": 62.86 },
+      { "object": "knife", "fpr": 0.18, "fnr": 57.78 },
+      { "object": "onion", "fpr": 3.52, "fnr": 30.47 },
+      { "object": "peel", "fpr": 0.16, "fnr": 46.88 },
+      { "object": "pineapple", "fpr": 4.14, "fnr": 19.35 },
+      { "object": "plate", "fpr": 0.50, "fnr": 41.18 },
+      { "object": "potato", "fpr": 1.00 , "fnr": 46.35 }
     ]
   },
   "videoInfo": [
-    { "vidId": "s13-d21", "id": 1, "tags": [ "cucumber", "cutting board", "cut", "take out", "fridge" ] , "fPositive": 0.59, "fNegative": 13.35 },
-    { "vidId": "s14-d43", "id": 2, "tags": [ "potato", "peel", "cut", "take out", "cupboard" ] , "fPositive": 0.55, "fNegative": 8.09 },
-    { "vidId": "s15-d23", "id": 3, "tags": [ "carrot", "peel", "cutting board", "cut", "take out" ]  , "fPositive": 0.53, "fNegative": 14.74 },
-    { "vidId": "s21-d23", "id": 4, "tags": [ "carrot", "peel", "cutting board", "cut", "take out" ] , "fPositive": 0.52, "fNegative": 9.45 },
-    { "vidId": "s23-d43", "id": 5, "tags": [ "potato", "peel", "cutting board", "cut", "take out" ] , "fPositive": 0.61, "fNegative": 13.11 },
-    { "vidId": "s24-d21", "id": 6, "tags": [ "cucumber", "cutting board", "cut", "take out", "fridge" ] , "fPositive": 0.90, "fNegative": 14.28 }
-]
+    { "vidId": "s13-d21", "id": 1, "tags": [ "cut", "cucumber", "plate", "fridge", "cutting board" ] , "fPositive": 0.90, "fNegative": 21.05 },
+    { "vidId": "s14-d43", "id": 2, "tags": [ "peel", "add", "potato", "bowl", "garbage" ] , "fPositive": 1.18, "fNegative": 21.56 },
+    { "vidId": "s15-d23", "id": 3, "tags": [ "peel", "pineapple", "plate", "knife", "garbage" ]  , "fPositive": 1.07, "fNegative": 24.19 },
+    { "vidId": "s21-d23", "id": 4, "tags": [ "throw", "carrot", "bowl", "plate", "garbage" ] , "fPositive": 1.21, "fNegative": 21.95 },
+    { "vidId": "s23-d43", "id": 5, "tags": [ "open", "peel", "potato", "plate", "cupboard" ] , "fPositive": 1.10, "fNegative": 26.88 },
+    { "vidId": "s24-d21", "id": 6, "tags": [ "cut", "wash", "cucumber", "fridge", "cutting board" ] , "fPositive": 1.20, "fNegative": 18.16 },
+    { "vidId": "s28-d27", "id": 7, "tags": [ "stir", "scrub", "peel", "onion", "frying pan" ] , "fPositive": 0.93, "fNegative": 26.72 },
+    { "vidId": "s32-d27", "id": 8, "tags": [ "stir", "add", "onion", "bowl", "frying pan" ] , "fPositive": 1.31, "fNegative": 41.92 },
+    { "vidId": "s36-d23", "id": 9, "tags": [ "stir", "scrub", "carrot", "frying pan", "bowl" ] , "fPositive": 1.06, "fNegative": 26.70 },
+    { "vidId": "s37-d46", "id": 10, "tags": [ "peel", "throw", "pineapple", "knife", "garbage" ] , "fPositive": 1.16, "fNegative": 20.02 }
+  ]
 }
