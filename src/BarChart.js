@@ -42,6 +42,16 @@ class BarChart extends Component {
         [this.state.height, 0]
       ); //output bounds
 
+    // gridlines in x axis function
+    function make_x_gridlines() {
+      return d3.axisBottom(x).ticks(5);
+    }
+
+    // gridlines in y axis function
+    function make_y_gridlines() {
+      return d3.axisLeft(y).ticks(5);
+    }
+
     var x = d3
       .scaleBand()
       .rangeRound([0, this.state.width])
@@ -53,6 +63,17 @@ class BarChart extends Component {
     let g = svgElement
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // add the X gridlines
+    g.append("g")
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + this.state.height + ")")
+      .call(make_x_gridlines().tickSize(-this.state.height).tickFormat(""));
+
+    // add the Y gridlines
+    g.append("g")
+      .attr("class", "grid")
+      .call(make_y_gridlines().tickSize(-this.state.width).tickFormat(""));
 
     g.append("g")
       .attr("transform", "translate(0," + this.state.height + ")")
@@ -81,9 +102,9 @@ class BarChart extends Component {
       .append("rect")
       .style("fill", (d, i) => {
         // // Uncomment these if you want to color based on order and not score value. Beware that same probabilites will then have diff. colors!
-        // let colorValue = i / this.props.data.length;
-        // return d3.interpolateRdBu(colorValue);
-        return d3.interpolateCool(Number(d[this.state.score]) / 100);
+        let colorValue = i / this.props.data.length;
+        return d3.interpolateRdBu(colorValue);
+        // return d3.interpolateRdPu(1 - Number(d[this.state.score]) / 200);
       })
       .attr("x", (d) => x(d.object))
       .attr("y", (d) => y(Number(d[this.state.score])))
