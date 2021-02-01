@@ -11,7 +11,7 @@ export default class VideoPlayer extends Component {
     super();
     this.state = {
       url: props.source,
-      playing: false,
+      playing: true,
       light: false,
       played: 0,
       loaded: 0,

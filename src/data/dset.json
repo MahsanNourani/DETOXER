@@ -21,7 +21,7 @@
   "videoInfo": [
     { "vidId": "s13-d21", "id": 1, "tags": [ "cut", "cucumber", "plate", "fridge", "cutting board" ] , "fPositive": 0.90, "fNegative": 21.05 },
     { "vidId": "s14-d43", "id": 2, "tags": [ "peel", "add", "potato", "bowl", "garbage" ] , "fPositive": 1.18, "fNegative": 21.56 },
-    { "vidId": "s15-d23", "id": 3, "tags": [ "peel", "pineapple", "plate", "knife", "garbage" ]  , "fPositive": 1.07, "fNegative": 24.19 },
+    { "vidId": "s15-d46", "id": 3, "tags": [ "peel", "pineapple", "plate", "knife", "garbage" ]  , "fPositive": 1.07, "fNegative": 24.19 },
     { "vidId": "s21-d23", "id": 4, "tags": [ "throw", "carrot", "bowl", "plate", "garbage" ] , "fPositive": 1.21, "fNegative": 21.95 },
     { "vidId": "s23-d43", "id": 5, "tags": [ "open", "peel", "potato", "plate", "cupboard" ] , "fPositive": 1.10, "fNegative": 26.88 },
     { "vidId": "s24-d21", "id": 6, "tags": [ "cut", "wash", "cucumber", "fridge", "cutting board" ] , "fPositive": 1.20, "fNegative": 18.16 },
