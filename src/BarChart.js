@@ -6,7 +6,7 @@ import * as d3 from "d3";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 import "./BarChart.css";
 // import {indigo} from '@material-ui/core/colors'
-const margin = { top: 10, right: 0, bottom: 70, left: 25 };
+const margin = { top: 10, right: 0, bottom: 96, left: 25 };
 
 const styles = {
   svg: {
@@ -78,7 +78,7 @@ class BarChart extends Component {
     g.append("g")
       .attr("transform", "translate(0," + this.state.height + ")")
       .classed("axisGrey xAxis", true)
-      .call(d3.axisBottom(x).tickPadding([-16])); // 16 is just the padding from the axis
+      .call(d3.axisBottom(x).tickPadding([-19])); // 19 is just the tick label's padding from the axis
 
     g.append("g")
       .call(d3.axisLeft(y))
@@ -102,9 +102,10 @@ class BarChart extends Component {
       .append("rect")
       .style("fill", (d, i) => {
         // // Uncomment these if you want to color based on order and not score value. Beware that same probabilites will then have diff. colors!
-        let colorValue = i / this.props.data.length;
-        return d3.interpolateRdBu(colorValue);
-        // return d3.interpolateRdPu(1 - Number(d[this.state.score]) / 200);
+        // let colorValue = i / this.props.data.length;
+        // return d3.interpolateRdBu(colorValue);
+        return "rgb(242 115 115)";
+        // return d3.interpolateRdPu(Number(d[this.state.score]) / 200);
       })
       .attr("x", (d) => x(d.object))
       .attr("y", (d) => y(Number(d[this.state.score])))
@@ -123,14 +124,18 @@ class BarChart extends Component {
     bar
       .append("text")
       .text((d) => {
-        if (d[this.state.score]) return d[this.state.score];
+        // if (d[this.state.score])
+        return d[this.state.score];
       })
       .attr("dy", ".75em")
       .attr("x", (d, i) => {
-        if (d[this.state.score])
-          return x.bandwidth() * (2 * i + 1) - x(d.object) - x.bandwidth() / 2;
+        // if (d[this.state.score])
+        // console.log(d[this.state.score]);
+        // x.bandwidth() = size of each bar - basically, taking the starting point of the bar and add half the size of the bar to center the label.
+        // the -1 * is for vertical positiioning of the label so they face the same direction as the axis label. The values (for some reason) need to be negative for -180 degree rotation (unlike x ticks)
+        return -1 * (x(d.object) + x.bandwidth() / 2);
       })
-      .attr("y", (d) => y(Number(d[this.state.score])) - 10) // top of the chart - some padding to not attach the number to the chart directly!
+      .attr("y", (d) => -1 * y(Number(d[this.state.score]))) // top of the chart - some padding to not attach the number to the chart directly!
       .classed("barText", true);
     // To only show every other tick to avoid cluttering
     var yticks = d3.selectAll(`#${this.state.id}.yaxis .tick`);

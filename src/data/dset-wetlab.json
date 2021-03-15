@@ -1,0 +1,36 @@
+{
+  "globalInfo": {
+    "accuracy": 83.95,
+    "falsePositiveRate": 0.39,
+    "falseNegativeRate": 14.31,
+    "objectPrecisionScores": [
+      { "object": "bottle", "fpr": 3.76, "fnr": 8.48  },
+      { "object": "dish", "fpr": 1.48, "fnr": 34.11 },
+      { "object": "test-tube1", "fpr": 0.32, "fnr": 15.26},
+      { "object": "spatula", "fpr": 0.18, "fnr": 10.65 },
+      { "object": "weight on scale", "fpr": 0.15, "fnr": 8.09},
+      { "object": "pipette", "fpr": 0.11, "fnr": 17.68},
+      { "object": "cellobiose bottle", "fpr": 0.11, "fnr": 36.98 },
+      { "object": "mgso4 bottle", "fpr": 0.08, "fnr": 5.36 },
+      { "object": "biotin bottle", "fpr": 0.07, "fnr": 7.14 },
+      { "object": "scale", "fpr": 0.07, "fnr": 28.13 },
+      { "object": "pen", "fpr": 0.06, "fnr": 30.19 },
+      { "object": "salt bottle", "fpr": 0.06, "fnr": 70.39 },
+      { "object": "test-tube2", "fpr": 0.05, "fnr": 2.21},
+      { "object": "label", "fpr": 0.04, "fnr": 10.29 },
+      { "object": "syringe", "fpr": 0.04, "fnr": 1.59 },
+      { "object": "hemisulfate bottle", "fpr": 0.01, "fnr": 0.52 },
+      { "object": "towel", "fpr": 0.00, "fnr": 0.00 },
+      { "object": "peptone bottle", "fpr": 0.00, "fnr": 23.33 },
+      { "object": "dextrose bottle", "fpr": 0.00, "fnr": 0.46}
+    ]
+  },
+  "videoInfo": [
+      { "vidId": "YPAD14", "id": 1, "tags": [ "dextrose bottle", "hemisulfate bottle", "peptone bottle", "label", "weight on scale" ] , "fPositive": 0.45, "fNegative": 7.41 },
+      { "vidId": "CELL23", "id": 2, "tags": [ "test-tube2", "syringe", "pipette", "mgso4 bottle", "biotin bottle" ] , "fPositive": 0.29, "fNegative": 7.93 },
+      { "vidId": "CELL24", "id": 3, "tags": [ "syringe", "mgso4 bottle", "test-tube2", "biotin bottle", "test-tube1" ]  , "fPositive": 0.55, "fNegative": 11.73 },
+      { "vidId": "LLGM12", "id": 4, "tags": [ "get", "put", "spatula", "bottle", "label" ] , "fPositive": 0.83, "fNegative": 26.73 },
+      { "vidId": "LLGM13", "id": 5, "tags": [ "cellobiose bottle", "pen", "label", "put", "bottle" ] , "fPositive": 0.16, "fNegative": 3.04 },
+      { "vidId": "YPAD13", "id": 6, "tags": [ "clean", "towel", "hemisulfate bottle", "dextrose bottle", "peptone bottle" ] , "fPositive": 0.14, "fNegative": 1.72 }
+  ]
+}

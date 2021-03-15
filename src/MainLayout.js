@@ -14,8 +14,10 @@ import {
 } from "@material-ui/core";
 import LaunchIcon from "@material-ui/icons/Launch";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+// import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import QueuePlayNextIcon from "@material-ui/icons/QueuePlayNext";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
 import { makeStyles } from "@material-ui/core/styles";
 import DrawerContent from "./DrawerContent";
 import VideoPlayer from "./VideoPlayer";
@@ -210,18 +212,46 @@ export default function MainLayout() {
     createBoolLog("note", "closed");
   };
 
+  const datasetToggle = () => {
+    setDataset(dataset == "cooking" ? "wetlab" : "cooking");
+    createBoolLog("dataset", "changed");
+  };
+
   const [currentVidData, setVidData] = React.useState("probs.s13-d21.mp4.csv");
   const [currentVidSrc, setVidSrc] = React.useState(
     "https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4"
   );
 
+  const [dataset, setDataset] = React.useState("cooking");
+
+  useEffect(() => {
+    let videoSrc =
+      "https://indie.cise.ufl.edu/Pineapple/assets/videos/s13-d21.mp4";
+
+    let videoData = "probs.s13-d21.mp4.csv";
+    if (dataset == "wetlab") {
+      videoSrc = "https://indie.cise.ufl.edu/XAI-Demo/assets/videos/CELL23.mp4";
+      videoData = "probs.CELL23.mp4.csv";
+    }
+
+    setVidSrc(videoSrc);
+    setVidData(videoData);
+  }, [dataset]);
+
   // Callback function passed to the children (final stop, the button on the side panel to inspect video) and passed to onClick.
   const setVideoAndData = (videoName) => {
-    const videoSrc =
+    let videoSrc =
       "https://indie.cise.ufl.edu/Pineapple/assets/videos/" +
       videoName +
       ".mp4";
-    const videoData = "probs." + videoName + ".mp4.csv";
+    let videoData = "probs." + videoName + ".mp4.csv";
+
+    if (dataset == "wetlab") {
+      videoSrc =
+        "https://indie.cise.ufl.edu/XAI-Demo/assets/videos/" +
+        videoName +
+        ".mp4";
+    }
 
     setVidSrc(videoSrc);
     setVidData(videoData);
@@ -235,7 +265,7 @@ export default function MainLayout() {
   const [openDialoge, setDialogeOpen] = React.useState(false); //user Study task
 
   const [openGlobalInfo, setGlobalInfoOpen] = React.useState(true); //used to toggle open/close for the global info dialoge box
-  const [openNotebook, setNotebookOpen] = React.useState(true); // used to toggle open/close the notebook (user study!)
+  const [openNotebook, setNotebookOpen] = React.useState(false); // used to toggle open/close the notebook (user study!)
   const [submitEnabled, setSubmit] = React.useState(false); //Submit button is disabled.
 
   useEffect(() => {
@@ -313,13 +343,21 @@ export default function MainLayout() {
               Notepad
             </Button>
             <Button
+              aria-label="toggle dataset"
+              className={classes.navbarButton}
+              startIcon={<AutorenewIcon />}
+              onClick={datasetToggle}
+            >
+              {`${dataset} dataset`}
+            </Button>
+            <Button
               aria-label="submit"
               className={classes.navbarButton}
-              startIcon={<AssignmentTurnedInIcon />}
+              startIcon={<GetAppIcon />}
               onClick={submit}
-              disabled={!submitEnabled}
+              // disabled={!submitEnabled}
             >
-              Submit
+              Export Logs
             </Button>
           </div>
           {/* <Button aria-label="open dialoge" onClick={dialogeOpen} startIcon={<AssignmentIcon />} 
@@ -335,7 +373,7 @@ export default function MainLayout() {
         className={classes.drawer}
         classes={{ paper: classes.drawerPaper }}
       >
-        <DrawerContent onVideoClick={setVideoAndData} />
+        <DrawerContent onVideoClick={setVideoAndData} dataset={dataset} />
       </MUIDrawer>
       <main className={clsx(classes.content, { [classes.contentShift]: open })}>
         <div className={classes.drawerHeader}>
@@ -356,6 +394,7 @@ export default function MainLayout() {
                 <GlobalInfoCard
                   open={openGlobalInfo}
                   close={globalDialogeClose}
+                  dataset={dataset}
                 />
               </Grid>
               <Grid item md={12}>

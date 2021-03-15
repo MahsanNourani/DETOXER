@@ -6,6 +6,10 @@
 
 .barText {
   font-size: 8px;
+  writing-mode: vertical-lr;
+  /* -webkit-text-orientation: mixed; */
+  transform: rotate(180deg);
+  text-anchor: start;
 }
 
 .axisGrey line {

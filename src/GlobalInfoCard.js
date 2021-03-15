@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Draggable from "react-draggable";
 import clsx from "clsx";
 import {
@@ -25,11 +25,12 @@ import ErrorIcon from "@material-ui/icons/Error";
 import { red, indigo, orange } from "@material-ui/core/colors";
 import BarChart from "./BarChart";
 
-import globalInformation from "./data/dset.json";
+import globalInformationCooking from "./data/dset.json";
+import globalInformationWetlab from "./data/dset-wetlab.json";
 
 const useStyles = makeStyles((theme) => ({
   cardStyle: {
-    minWidth: 400,
+    minWidth: 408,
     cursor: "move",
   },
   hidden: {
@@ -68,50 +69,79 @@ const useStyles = makeStyles((theme) => ({
 export default function GlobalInfoCard(props) {
   const classes = useStyles();
 
-  const globalInfo = globalInformation.globalInfo;
-  const precisionData = globalInfo.objectPrecisionScores;
+  const [globalInfo, setGlobalInfo] = React.useState(
+    globalInformationCooking.globalInfo
+  );
 
-  const [items, setItems] = React.useState([
-    {
-      text: "Overall Detection Accuracy",
-      value: globalInfo.accuracy,
-      icon: (
-        <CheckCircleIcon
-          fontSize="large"
-          style={{ color: indigo.A700 }}
-          classes={{ fontSizeLarge: classes.fontSizeLarge }}
-        />
-      ),
-      tooltip:
-        "Informally, accuracy is the fraction of predictions our model got right.",
-    },
-    {
-      text: "Overall False Positives",
-      value: globalInfo.falsePositiveRate,
-      icon: (
-        <ErrorIcon
-          fontSize="large"
-          style={{ color: red.A700 }}
-          classes={{ fontSizeLarge: classes.fontSizeLarge }}
-        />
-      ),
-      tooltip:
-        "A result that shows something is present when it really is not.",
-    },
-    {
-      text: "Overall False Negatives",
-      value: globalInfo.falseNegativeRate,
-      icon: (
-        <ErrorIcon
-          fontSize="large"
-          style={{ color: red.A700 }}
-          classes={{ fontSizeLarge: classes.fontSizeLarge }}
-        />
-      ),
-      tooltip:
-        "An incorrect indication that something is not present when it really is.",
-    },
-  ]);
+  // useEffect(() => {
+  //   setGlobalInfo(
+  //     props.dataset == "wetlab"
+  //       ? globalInformationWetlab.globalInfo
+  //       : globalInformationCooking.globalInfo
+  //   );
+  //   console.log(globalInfo);
+  // }, []);
+
+  useEffect(() => {
+    if (props.dataset == "wetlab")
+      setGlobalInfo(globalInformationWetlab.globalInfo);
+    else setGlobalInfo(globalInformationCooking.globalInfo);
+  }, [props]);
+
+  // console.log(globalInfo);
+  // const precisionData = globalInfo.objectPrecisionScores;
+
+  function globalInfoItems() {
+    const newItems = [
+      {
+        text: "Overall Detection Accuracy",
+        value: globalInfo.accuracy,
+        icon: (
+          <CheckCircleIcon
+            fontSize="large"
+            style={{ color: indigo.A700 }}
+            classes={{ fontSizeLarge: classes.fontSizeLarge }}
+          />
+        ),
+        tooltip:
+          "Informally, accuracy is the fraction of predictions our model got right.",
+      },
+      {
+        text: "Overall False Positives",
+        value: globalInfo.falsePositiveRate,
+        icon: (
+          <ErrorIcon
+            fontSize="large"
+            style={{ color: red.A700 }}
+            classes={{ fontSizeLarge: classes.fontSizeLarge }}
+          />
+        ),
+        tooltip:
+          "A result that shows something is present when it really is not.",
+      },
+      {
+        text: "Overall False Negatives",
+        value: globalInfo.falseNegativeRate,
+        icon: (
+          <ErrorIcon
+            fontSize="large"
+            style={{ color: red.A700 }}
+            classes={{ fontSizeLarge: classes.fontSizeLarge }}
+          />
+        ),
+        tooltip:
+          "An incorrect indication that something is not present when it really is.",
+      },
+    ];
+    return newItems;
+  }
+
+  const [items, setItems] = React.useState(globalInfoItems());
+
+  useEffect(() => {
+    setItems(globalInfoItems);
+  }, [globalInfo]);
+
   const listItems = items.map((item, index) => {
     return (
       <ListItem key={index} classes={{ root: classes.listItemRoot }}>
@@ -138,6 +168,54 @@ export default function GlobalInfoCard(props) {
       </ListItem>
     );
   });
+
+  function createGlobalBarcharts() {
+    return (
+      <Grid
+        item
+        container
+        xs={12}
+        spacing={1}
+        key={`${props.dataset}-barchart-grid`}
+      >
+        <Grid item xs={12}>
+          <Typography variant="body1" className={classes.chartTitle}>
+            <u>False Positive</u> rate per{" "}
+            <i className={classes.highlight}>Object</i>
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <BarChart
+            data={globalInfo.objectPrecisionScores}
+            size={[310, 180]}
+            id="FPBarchart"
+            score="fpr"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" className={classes.chartTitle}>
+            <u>False Negative</u> rate per{" "}
+            <i className={classes.highlight}>Object</i>
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <BarChart
+            data={globalInfo.objectPrecisionScores}
+            size={[310, 180]}
+            id="FNBarchart"
+            score="fnr"
+          />
+        </Grid>
+      </Grid>
+    );
+  }
+
+  const [barcharts, setBarcharts] = React.useState(createGlobalBarcharts());
+
+  useEffect(() => {
+    setBarcharts(createGlobalBarcharts());
+  }, [globalInfo]);
+
   return (
     <Draggable handle="#globalInfo">
       <Card
@@ -161,36 +239,7 @@ export default function GlobalInfoCard(props) {
                 {listItems}
               </List>
             </Grid>
-            <Grid item container xs={12} spacing={1}>
-              <Grid item xs={12}>
-                <Typography variant="body1" className={classes.chartTitle}>
-                  <u>False Positive</u> rate per{" "}
-                  <i className={classes.highlight}>Object</i>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <BarChart
-                  data={precisionData}
-                  size={[310, 160]}
-                  id="FPBarchart"
-                  score="fpr"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="body1" className={classes.chartTitle}>
-                  <u>False Negative</u> rate per{" "}
-                  <i className={classes.highlight}>Object</i>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <BarChart
-                  data={precisionData}
-                  size={[310, 160]}
-                  id="FNBarchart"
-                  score="fnr"
-                />
-              </Grid>
-            </Grid>
+            {barcharts}
           </Grid>
         </CardContent>
       </Card>

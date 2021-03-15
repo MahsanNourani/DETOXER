@@ -21,7 +21,8 @@ import VideoPreview from "./VideoPreview";
 // import { green, red } from '@material-ui/core/colors';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // import clsx from 'clsx';
-import drawerContent from "./data/dset.json";
+import drawerContentCooking from "./data/dset.json";
+import drawerContentWetlab from "./data/dset-wetlab.json";
 
 const useStyles = makeStyles((theme) => ({
   // listIcon: {
@@ -164,9 +165,14 @@ export default function DrawerContent(props) {
   // const videoRefs = {};
 
   // the video name and the thumbnail name should be the same! Each video will only have one thumbnail.
-  const videoPreview = drawerContent.videoInfo;
+  let videoPreview = [];
+  if (props.dataset == "cooking") videoPreview = drawerContentCooking.videoInfo;
+  else {
+    videoPreview = drawerContentWetlab.videoInfo;
+  }
   // const videoPreview = videoPreviewTemp.map(item => ({ item, ref: React.createRef() }));
-  // console.log (videoPreview);
+  // console.log(videoPreview);
+  // console.log(props.dataset);
 
   const videoPreviewList = videoPreview.map((item, i) => {
     // const thisRef = React.createRef();
