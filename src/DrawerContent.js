@@ -12,6 +12,7 @@ import {
 import { makeStyles, withStyles } from "@material-ui/core";
 import MuiAccordion from "@material-ui/core/Accordion";
 import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import clsx from "clsx";
 // import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
 // import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 // import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
@@ -70,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     bottom: 10,
     zIndex: 5,
-    backgroundColor: "white",
+    // backgroundColor: "white",
   },
   mainDiv: {
     overflowY: "scroll",
@@ -161,7 +162,7 @@ export default function DrawerContent(props) {
   // const highPrecisionData = globalInfo.objectPrecisionScores;
   // const lowPrecisionData = globalInfo.lowestPrecisionObjects;
 
-  // const [currentVideo, setCurrentVideo] = React.useState(undefined);
+  const [currentVideo, setCurrentVideo] = React.useState(0);
   // const videoRefs = {};
 
   // the video name and the thumbnail name should be the same! Each video will only have one thumbnail.
@@ -174,6 +175,11 @@ export default function DrawerContent(props) {
   // console.log(videoPreview);
   // console.log(props.dataset);
 
+  const onVideoClick = (videoName, index) => {
+    props.onVideoClick(videoName);
+    setCurrentVideo(index);
+  };
+
   const videoPreviewList = videoPreview.map((item, i) => {
     // const thisRef = React.createRef();
     // videoRefs[i] = thisRef;
@@ -182,45 +188,20 @@ export default function DrawerContent(props) {
         key={item.vidId}
         data={item}
         style={i === videoPreview.length - 1 ? { marginBottom: "15px" } : {}}
-        onVideoClick={() => props.onVideoClick(item.vidId)}
+        selected={currentVideo === i}
+        onVideoClick={() => onVideoClick(item.vidId, i)}
       />
     );
   });
 
-  // console.log("this is what you are looking for: ");
-  // console.log(videoPreviewList[0]);
-  // videoPreviewList[0].props.className = "black";
-
-  // useEffect(() => {
-  // 	// here, your component did mount
-
-  // 	// try to access component1 using the optional
-  // 	// chaining feature of JavaScript
-  // 	if (videoRefs[0] && videoRefs[0].current)
-  // 		console.log(videoRefs);
-  //   }, [videoRefs]);
-
-  // const onVideoClick = (videoName, ref) => {
-  // 	props.onVideoClick(videoName)
-  // 	if (currentVideo) {
-  // 		console.log("whoops!");
-  // 		currentVideo.style.backgroundColor = "white";
-  // 	}
-  // 	if (ref.current != null) {
-  // 		console.log (ref);
-  // 		setCurrentVideo(ref);
-  // 		// ref.style.backgroundColor = "black";
-  // 	}
-  // 	console.log(ref)
-  // 	console.log(currentVideo)
-  // }
-
   return (
     <React.Fragment>
       <div className={classes.mainDiv}>
-        {" "}
-        {/* className={classes.sticky}*/}
-        <Typography variant="h5" align="center" className={classes.drawerTitle}>
+        <Typography
+          variant="h5"
+          align="center"
+          className={clsx(classes.drawerTitle, classes.sticky)}
+        >
           Videos to Explore
         </Typography>
         {/* <Divider /> */}

@@ -86,10 +86,7 @@ export default function GlobalInfoCard(props) {
     if (props.dataset == "wetlab")
       setGlobalInfo(globalInformationWetlab.globalInfo);
     else setGlobalInfo(globalInformationCooking.globalInfo);
-  }, [props]);
-
-  // console.log(globalInfo);
-  // const precisionData = globalInfo.objectPrecisionScores;
+  }, [props.dataset]);
 
   function globalInfoItems() {
     const newItems = [

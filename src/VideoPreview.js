@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: theme.palette.secondary.transparent,
     },
+    // "&$selected": {
+    //   backgroundColor: "red",
+    // },
   },
   rootDiv: {
     display: "flex",
@@ -39,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     "& > *": {
       margin: theme.spacing(0.5),
+    },
+  },
+  selectedVideo: {
+    backgroundColor: "#d8deff",
+    "&:hover": {
+      backgroundColor: "#d8deff",
     },
   },
   listItemRoot: {
@@ -61,9 +70,12 @@ const useStyles = makeStyles((theme) => ({
     height: 100,
     borderRadius: 3,
   },
-  divider: {
+  dividerInside: {
     marginBottom: theme.spacing(1) / 2,
     marginTop: theme.spacing(1) / 2,
+    backgroundColor: "#ef9a9a",
+  },
+  divider: {
     backgroundColor: "#ef9a9a",
   },
   buttonIcon: {
@@ -184,7 +196,11 @@ export default function VideoPreview(props) {
 
   return (
     <Grid item xs={12} style={props.style} className={classes.mainGrid}>
-      <Card variant="outlined" classes={{ root: classes.root }}>
+      <Card
+        variant="outlined"
+        classes={{ root: classes.root }}
+        className={clsx(props.selected && classes.selectedVideo)}
+      >
         <div style={{ alignItems: "center", marginLeft: 4 }}>
           <CardMedia
             component="img"
@@ -211,7 +227,7 @@ export default function VideoPreview(props) {
             {videoChips}
             <Divider
               className={clsx({
-                [classes.divider]: true,
+                [classes.dividerInside]: true,
                 [classes.hidden]: !condition,
               })}
             />
