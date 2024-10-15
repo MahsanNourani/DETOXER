@@ -1,9 +1,32 @@
+# About DETOXER
+
+**DETOXER** is an open-sourced visual analytics application, that incorporates explorations, interactivity, and explainability, to facilitate a multi-scoped debugging of Temporal Multi-Label Classification (TMLC) Machine Learning models used for video activity recognition. 
+
+Here is a link to the [demo](https://indie.cise.ufl.edu/GlobalVis/).
+
+![DETOXER](https://mahsan.page/static/media/XAI_3.2023b3c0e924b9ebea9b.png)
+
+# Data
+
+We used two sets of videos for our two domains. Kitchen activity videos from **The TACoS Corpus**, licensed and available [here](https://www.coli.uni-saarland.de/projects/smile/page.php?id=tacos) for free. The Wet Lab videos are from [this paper](https://ojs.aaai.org/index.php/AAAI/article/view/8939). Please contact the authors for permission to use.
+
+The TMLC model is not included; however, the outputs of the model for activity recognition within the videos are available in `scr/data/`.
+
+`scr/data/`:
+- `dset.json` & `dset-wetlab.json` provide model-generated information used in the global information panel on the right for the cooking and wet lab datasets, respectively.
+- `vocabulary.json` & `vocabulary-wetlab.json` list all the labels/classes used for classification for each of the datasets.
+- `probs.s*-d*.mp4.json` & `probs.{CELL|LLGM|YPAD}*.mp4.json` provide the model-generated probabilities per video used for creating the heatmaps for cooking and wet lab datasets, respectively.
+
+# Technology
+For this web-based application, we used [React.js](https://react.dev/) as the Javascript framework, and [Material UI (MUI)](https://mui.com/) as the CSS styling framework. 
+We utilize [D3.js](https://d3js.org) to draw SVG elements. 
+
+# Getting Started
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To run the demo in this repository, use `npm install` and start a development server via `npm start`. A list of available commands can be found below.
 
-## Available Scripts
-
-In the project directory, you can run:
-
+## Available Commands
 ### `npm start`
 
 Runs the app in the development mode.<br />
@@ -37,32 +60,27 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+# Additional Information
+If you use this library, showcase its results, or want to refer to it, please cite [our paper](https://ieeexplore.ieee.org/abstract/document/9866547). The supplemental material for our paper, including an extended case study and usage video, can be found [here](https://ieeexplore.ieee.org/document/9866547/media#media).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+@article{nourani2022detoxer,
+  title={DETOXER: a visual debugging tool with multiscope explanations for temporal multilabel classification},
+  author={Nourani, Mahsan and Roy, Chiradeep and Honeycutt, Donald R and Ragan, Eric D and Gogate, Vibhav},
+  journal={IEEE Computer Graphics and Applications},
+  volume={42},
+  number={6},
+  pages={37--46},
+  year={2022},
+  publisher={IEEE},
+  doi: {10.1109/MCG.2022.3201465}
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# License
 
-### Code Splitting
+Distributed under the MIT License. See `LICENSE` for more information.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+# Contact
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Mahsan Nourani - m.nourani@northeastern.edu
